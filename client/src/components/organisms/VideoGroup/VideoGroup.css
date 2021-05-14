@@ -1,0 +1,12 @@
+.video-group{
+    display:flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.video-group__col{
+    display:flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex-wrap: wrap;
+}

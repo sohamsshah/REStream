@@ -1,0 +1,29 @@
+.home__suggestions{
+    padding:2rem 0;
+}
+.browse__title{
+    padding: 1rem 0;
+    font-weight: bold;
+}
+
+.browse__title a{
+    color: var(--primary-color);
+
+}
+
+.browse__more{
+    padding: 1rem 0; 
+    font-weight: bold;
+}
+.browse__more a{
+    color: var(--secondary-color);
+}
+
+.browse__more a:hover{
+    color: var(--secondary-color-dark);
+    
+}
+
+hr{
+    color: var(--light-color);
+}

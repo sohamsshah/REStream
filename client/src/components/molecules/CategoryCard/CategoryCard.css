@@ -1,0 +1,31 @@
+.card{
+    width:15rem;
+    display:flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-right:1rem;
+
+}
+
+.card-small{
+    display:flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-right:2rem;
+}
+
+.card__name{
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  font-weight: bold;  
+}
+
+.card__name a{
+    color: inherit;
+    text-decoration: none;
+}
+
+.card__name:hover{
+    color: var(--secondary-color);
+    cursor:pointer;
+}

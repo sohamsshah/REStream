@@ -1,0 +1,13 @@
+.video{
+    width:20rem;
+    display:flex;
+    flex-direction: column;
+    margin-right:2rem;
+}
+
+.small-video{
+    width:15rem;
+    display:flex;
+    flex-direction: column;
+    margin-right:2rem;  
+}

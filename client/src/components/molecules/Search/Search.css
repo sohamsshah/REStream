@@ -1,0 +1,13 @@
+.search{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.search input{
+    margin-right: 0.5rem;
+}
+
+.search svg{
+    font-size: 1.5rem;
+}

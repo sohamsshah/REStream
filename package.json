@@ -1,0 +1,24 @@
+{
+  "name": "resnet",
+  "version": "1.0.0",
+  "description": "youtube for researchers",
+  "main": "server.js",
+  "scripts": {
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "start": "node server.js",
+    "client": "cd client && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sohamsshah/video-lib.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sohamsshah/video-lib/issues"
+  },
+  "homepage": "https://github.com/sohamsshah/video-lib#readme"
+}

@@ -1,0 +1,36 @@
+
+.sidebar{
+    position: fixed;
+    width:15rem;
+    border-right: solid 1px #eee;
+    height:100%;
+    overflow-y: scroll hidden;
+    background-color: var(--background-color-dark);
+   
+}
+
+.sidebar__pills{
+    display:flex;
+    justify-content: flex-start;
+    padding:0.5rem 1rem;
+    transition:ease-in 0.2s;
+    cursor: pointer;
+    text-decoration: none;;
+    color: inherit;
+    font-size: 1rem;
+    align-items: center;
+}
+
+.sidebar__pills div{
+  margin: 0.5rem 0.75rem;
+}
+
+.sidebar__pills svg{
+  font-size: 1.2rem;
+}
+
+
+.sidebar__pills:hover{
+  background-color: var(--secondary-color);
+  color: white;
+}

@@ -1,0 +1,10 @@
+.tag-group {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: flex-start;
+    width:100%;
+}
+
+.tag-group div{
+    margin-right:0.5rem;
+}

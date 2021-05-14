@@ -1,0 +1,10 @@
+.main-container{
+    
+    
+}
+
+.main__content{
+    margin-left:15rem;
+    background-color: var(--background-color);
+    padding:2rem;
+}

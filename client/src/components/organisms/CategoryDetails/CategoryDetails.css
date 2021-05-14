@@ -1,0 +1,14 @@
+.category-details{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.category-details__img{
+    width:10rem;
+    height:12rem;
+    margin-right:2rem;
+}
+
+.category-details__info{
+    width:60%;
+}
