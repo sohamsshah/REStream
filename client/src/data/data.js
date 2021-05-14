@@ -84,6 +84,14 @@ export const data = {
             thumbnail: "https://yt3.ggpht.com/ytc/AAUvwniWY0KJZhfkhAau-e_5OEeWxXabgPObQVGTL6adyw=s176-c-k-c0x00ffffff-no-rj",
         },
         {
+            creator_id: "7",
+            isChannel: true,
+            redirect: "/channels/",
+            name:"Microsoft Research",
+            description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.",
+            thumbnail: "https://yt3.ggpht.com/ytc/AAUvwnj1ivtTbvGoI28ustHjS78JRKh2WzeGBmEMev3Chw=s88-c-k-c0x00ffffff-no-rj",
+        },
+        {
             creator_id: "8",
             isChannel: true,
             redirect: "/channels/",

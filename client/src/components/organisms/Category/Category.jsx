@@ -12,7 +12,6 @@ function Category() {
     const { category } = useParams();
     const categoryVideos = data.videos.filter((item) => item.category_name === category);
     const {name, thumbnail, description, tags} = data.categories.filter((item) => item.category_name === category)[0];
-    // console.log(name, thumbnail, description, tags);
     console.log(categoryVideos);
     return (
         <div>        

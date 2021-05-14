@@ -22,6 +22,7 @@ function VideoStream() {
     const currUserVideoState = videoState.filter((item) => item.id === currentUserId)[0];
     const video = fetchVideoDetails(data, id);
     const creatorDetails = searchCreator(data, video.creator_id)[0];
+    console.log(creatorDetails);
     const [showModal, setShowModal] = useState(false);
 
     function handleLike(){
