@@ -5,8 +5,6 @@
   "main": "server.js",
   "scripts": {
     "build": "cd client && npm run build",
-    "install-client": "cd client && npm install",
-    "heroku-postbuild": "npm run install-client && npm run build",
     "start": "node server.js",
     "client": "cd client && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/sohamsshah/video-lib/issues"
   },
-  "homepage": "https://github.com/sohamsshah/video-lib#readme"
+  "homepage": "https://github.com/sohamsshah/video-lib#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "web-vitals": "^1.1.2"
+  }
 }
