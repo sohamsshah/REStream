@@ -1,4 +1,6 @@
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const {categories} = require("./../data");
 
 const CategorySchema = new Schema({
   thumbnail: String,
@@ -11,12 +13,12 @@ const CategorySchema = new Schema({
 
 const Category = mongoose.model('Category', CategorySchema);
 
-// const addVideosToDB = () => {
-//   videos.forEach(async (video) => {
-//     const NewVideo = new Video(video);
-//     const savedVideo = await NewVideo.save();
-//     console.log(savedVideo);
-//   })
-// }
+const addCategoriesToDB = () => {
+  categories.forEach(async (category) => {
+    const NewCategory = new Category(category);
+    const savedCategory = await NewCategory.save();
+    console.log(savedCategory);
+  })
+}
 
-module.exports = { Creator, addVideosToDB };
+module.exports = { Category, addCategoriesToDB };

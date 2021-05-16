@@ -249,4 +249,13 @@ const data = {
 
 }
 
-module.exports = {videos: data.videos, creators: data.creators, categories: data.categories} 
+const userCredentials = [
+  {
+    username: "admin",
+    email: "admin@gmail.com",
+    password: "admin",
+  }
+]
+
+
+module.exports = {videos: data.videos, creators: data.creators, categories: data.categories, userCredentials} 
