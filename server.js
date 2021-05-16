@@ -12,6 +12,7 @@ const video = require('./server/routes/videos.route');
 const categories = require('./server/routes/categories.route');
 const creators = require('./server/routes/creators.route');
 const userCredential = require('./server/routes/userCredentials.route');
+const userDetails = require('./server/routes/userDetails.route');
 
 // Data parsing
 app.use(express.json());
@@ -26,6 +27,7 @@ initializeDatabase();
 
 app.use('/watch', video);
 app.use('/auth', userCredential);
+app.use('/userDetails', userDetails);
 app.use('/categories', categories);
 app.use('/creators', creators);
 
