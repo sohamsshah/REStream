@@ -6,6 +6,9 @@ const UserDetailSchema = new Schema({
   likedVideos: [
     { videoId: { type: String, ref: 'Video' } }
   ],
+  following: [
+    { creatorId: { type: String, ref: 'Creator' } }
+  ],
   history: [
     { videoId: { type: String, ref: 'Video' } }
   ],

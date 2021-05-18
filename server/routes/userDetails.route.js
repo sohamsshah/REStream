@@ -42,6 +42,32 @@ router.route("/:userId/likedVideos")
     await user.save();
     const newVideo = user.likedVideos.find(item => item.videoId == video.videoId)
     return res.status(201).json({ addedVideo: newVideo, success: true, message: "Successful" });
+  }) 
+.delete(async (req, res) => {
+    const { user } = req;
+    const { videoId } = req.body;
+    const video = user.likedVideos.find(item => item.videoId == videoId)
+    if (video) {
+      user.likedVideos.pull({ _id: video._id });
+      await user.save();
+      return res.status(200).json({ deletedVideo: video, success: true, message: "Successful" });
+    } else {
+      return res.status(404).json({ succes: false, message: "The video id you requested doesn't exists" });
+    }
+  })  
+
+router.route("/:userId/likedVideos")
+.get(async (req, res) => {
+    const { user } = req;
+    const updatedObj = await user.populate('likedVideos.videoId').execPopulate();
+    return res.json({ likedVideos: updatedObj.likedVideos, success: true })})
+.post(async (req, res) => {
+    const { user } = req;
+    const video = req.body;
+    user.likedVideos.push({ videoId: video.videoId });
+    await user.save();
+    const newVideo = user.likedVideos.find(item => item.videoId == video.videoId)
+    return res.status(201).json({ addedVideo: newVideo, success: true, message: "Successful" });
   })   
 
 module.exports = router;
