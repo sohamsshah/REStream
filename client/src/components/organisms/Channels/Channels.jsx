@@ -11,7 +11,7 @@ function Channels() {
             try {
                 // every channel is a creator with isChannel === true
                 const response = await axios.get(`https://apirestream.sohamsshah.repl.co/creators/`);
-                console.log(response);
+                
                 if (response.status === 200) {
                     setChannels(response.data.creators)
                 }
@@ -25,9 +25,9 @@ function Channels() {
         <div>
             <ContentHeading>Channels</ContentHeading>
             <CardGroup>
-            {channels !== "Loading..." ? channels.map(({name, thumbnail, redirect, creator_id, isChannel}) => {
+            {channels !== "Loading..." ? channels.map(({name, thumbnail, redirect, _id, isChannel}) => {
                     if (isChannel){
-                    return <CategoryCard name={name} thumbnail={thumbnail} redirect={redirect+`${creator_id}`} />
+                    return <CategoryCard name={name} thumbnail={thumbnail} redirect={redirect+`${_id}`} />
                     }
                     return ""
                 }) : channels}

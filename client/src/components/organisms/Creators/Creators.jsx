@@ -11,7 +11,7 @@ function Creator() {
         (async function () {
             try {
                 const response = await axios.get(`https://apirestream.sohamsshah.repl.co/creators/`);
-                
+                console.log(response);
                 if (response.status === 200) {
                     setCreators(response.data.creators)
                 }
@@ -26,9 +26,9 @@ function Creator() {
         <div>
             <ContentHeading>Instructors</ContentHeading>
             <CardGroup>
-                {creators !== "Loading..." ? creators.map(({name, thumbnail, redirect, creator_id, isChannel}) => {
+                {creators !== "Loading..." ? creators.map(({name, thumbnail, redirect, _id, isChannel}) => {
                     if (!isChannel){
-                    return <CategoryCard name={name} thumbnail={thumbnail} redirect={redirect+`${creator_id}`} />
+                    return <CategoryCard name={name} thumbnail={thumbnail} redirect={redirect+`${_id}`} />
                     }
                     return ""
                 }) : creators}
