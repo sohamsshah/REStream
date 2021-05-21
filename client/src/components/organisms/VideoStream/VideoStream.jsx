@@ -18,15 +18,15 @@ function VideoStream() {
     const [creatorDetails, setCreatorDetails] = useState("Loading...")
     const {authState} = useAuth();
     const {currentUserId} = authState;
+    console.log(currentUserId);
     const { videoState, dispatch } = useVideo();
-    const currUserVideoState = videoState.filter((item) => item.id === currentUserId)[0];
+    console.log(videoState);
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         (async function () {
             try {
                 const response = await axios.get(`https://apirestream.sohamsshah.repl.co/watch/${id}`);
-                console.log(response);
                 if (response.status === 200) {
                     setVideo(response.data.video);
                     setCreatorDetails(response.data.video.creator_id);
@@ -36,11 +36,11 @@ function VideoStream() {
                 console.log(error.message)
             }
         })()
-    }, [])
+    }, [id])
 
     function handleLike(){
-        if (currentUserId !== null){
-        if(searchLikes(currUserVideoState,video) === false){
+        if (currentUserId !== null && video !== "Loading..."){
+        if(searchLikes(videoState,video) === false){
             dispatch({type : "ADD_TO_LIKES", payload:{video:video, currentUserId:currentUserId}})
         } else {
             dispatch({type : "REMOVE_FROM_LIKES", payload:{video:video, currentUserId:currentUserId}})
@@ -52,26 +52,26 @@ function VideoStream() {
     }
 
     function handleFollow(){
-        if (currentUserId !== null){
-            console.log(currUserVideoState);
-            if(searchFollowings(currUserVideoState,creatorDetails.creator_id) === false){
+        if (currentUserId !== null && video !== "Loading..."){
+            
+            if(searchFollowings(videoState,creatorDetails._id) === false){
+                
                 dispatch({type : "FOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
             } else {
                 dispatch({type : "UNFOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
             }
-        }
-        
+        } 
         else{
             alert("Please Login")
         } 
     }
-    function handlePlaylist(){
-        if(currentUserId !== null){
-            setShowModal(true)
-        }else{
-            alert("Please Login")
-        }
-    }
+    // function handlePlaylist(){
+    //     if(currentUserId !== null){
+    //         setShowModal(true)
+    //     }else{
+    //         alert("Please Login")
+    //     }
+    // }
     return (
         
         
@@ -86,15 +86,15 @@ function VideoStream() {
                 <div className="info__buttons">
                     <button
                         onClick = {handleLike}
-                        className={(currentUserId !== null)?(searchLikes(currUserVideoState, video) ? "video-stream__like like__clicked" : "video-stream__like"):"video-stream__like"}
+                        className={(currentUserId !== null)?(searchLikes(videoState, video) ? "video-stream__like like__clicked" : "video-stream__like"):"video-stream__like"}
                     >
-                        {(currentUserId !== null)?(searchLikes(currUserVideoState,video) ? <AiFillLike /> : <AiOutlineLike />):<AiOutlineLike />}
+                        {(currentUserId !== null)?(searchLikes(videoState,video) ? <AiFillLike /> : <AiOutlineLike />):<AiOutlineLike />}
                     </button>
-                    <button onClick={handlePlaylist}className="video-stream__playlist">
+                    {/* <button onClick={handlePlaylist}className="video-stream__playlist">
                     <RiPlayListAddFill />
                     </button>
                     <PlaylistModal video={video} showModal={showModal} setShowModal={setShowModal} />
-                    
+                     */}
                 </div>
                 
             </div>
@@ -109,7 +109,7 @@ function VideoStream() {
                 </div>
                 <div> 
                 <Button onClick={handleFollow}>
-                {(currentUserId !== null)?(searchFollowings(currUserVideoState,creatorDetails.creator_id) === false ? "Follow": "Following"):"Follow"}
+                {(currentUserId !== null)?(searchFollowings(videoState,creatorDetails._id) === false ? "Follow": "Following"):"Follow"}
                 </Button>
                 </div>
                 

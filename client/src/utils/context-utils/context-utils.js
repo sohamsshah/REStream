@@ -1,5 +1,6 @@
 export function searchLikes(state, video) {
-    if (state.likedVideos.filter((item) => item.id === video.id).length === 0) {
+    console.log(state, video);
+    if (state.likedVideos.filter((item) => item._id === video._id).length === 0) {
         return false
     } else {
         return true
@@ -16,7 +17,7 @@ export function searchPlaylist(playlists, videoID){
 }
 
 export function searchFollowings(state, creatorID) {
-    if (state.following.filter((item) => item.creator_id === creatorID).length === 0) {
+    if (state.following.filter((item) => item._id === creatorID).length === 0) {
         return false
     } else {
         return true

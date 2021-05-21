@@ -9,7 +9,7 @@ function PlaylistModal({video, showModal, setShowModal}) {
     const {authState} = useAuth();
     const {currentUserId} = authState;
     const { videoState, dispatch } = useVideo();
-    const currUserVideoState = videoState.filter((item) => item.id === currentUserId)[0];
+    const currUserVideoState = videoState[0];
     const [modalInput, setModalInput] = useState("")
     
     function checkBoxHandler(e, item) {

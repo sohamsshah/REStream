@@ -10,7 +10,7 @@ function Navbar() {
     const {isUserLoggedIn} = authState;
 
     function handleLogin(){
-        dispatch({type:"LOGIN", payload:{userId:"123"}})
+        dispatch({type:"LOGIN", payload:{userId:"60a13ddc7e25f80154b8ec80"}})
     }
 
     function handleLogout(){
