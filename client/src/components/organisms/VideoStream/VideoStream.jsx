@@ -2,12 +2,9 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import VideoEmbed from "./../../atoms/VideoEmbed/VideoEmbed"
 import {useParams} from "react-router-dom"
-import {fetchVideoDetails} from "./../../../utils/video/video"
-import {data} from "./../../../data/data"
 import {useVideo} from "./../../../context/video-context"
 import {useAuth} from "./../../../context/auth-context"
 import {searchLikes, searchFollowings} from "./../../../utils/context-utils/context-utils"
-import {searchCreator} from "./../../../utils/category/category"
 import Typography from '../../atoms/Typography/Typography'
 import {AiFillLike, AiOutlineLike} from "react-icons/ai"
 import {RiPlayListAddFill} from "react-icons/ri"
@@ -17,13 +14,12 @@ import "./VideoStream.css"
 
 function VideoStream() {
     const {id} = useParams()
-    const [creatorDetails, setCreatorDetails] = useState("Loading...");
-    const [videoDetails, setVideoDetails] = useState("Loading...");
+    const [video, setVideo] = useState("Loading...");
+    const [creatorDetails, setCreatorDetails] = useState("Loading...")
     const {authState} = useAuth();
     const {currentUserId} = authState;
     const { videoState, dispatch } = useVideo();
     const currUserVideoState = videoState.filter((item) => item.id === currentUserId)[0];
-    const video = fetchVideoDetails(data, id);
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
@@ -32,8 +28,8 @@ function VideoStream() {
                 const response = await axios.get(`https://apirestream.sohamsshah.repl.co/watch/${id}`);
                 console.log(response);
                 if (response.status === 200) {
-                    // setCreatorDetails(response.data.creator);
-                    // setCreatorVideos(response.data.videos)
+                    setVideo(response.data.video);
+                    setCreatorDetails(response.data.video.creator_id);
                 }
             }
             catch (error) {
@@ -42,46 +38,45 @@ function VideoStream() {
         })()
     }, [])
 
-    // function handleLike(){
-    //     if (currentUserId !== null){
-    //     if(searchLikes(currUserVideoState,video) === false){
-    //         dispatch({type : "ADD_TO_LIKES", payload:{video:video, currentUserId:currentUserId}})
-    //     } else {
-    //         dispatch({type : "REMOVE_FROM_LIKES", payload:{video:video, currentUserId:currentUserId}})
-    //     }
-    // }
-    // else{
-    //     alert("Please Login")
-    // }
-    // }
+    function handleLike(){
+        if (currentUserId !== null){
+        if(searchLikes(currUserVideoState,video) === false){
+            dispatch({type : "ADD_TO_LIKES", payload:{video:video, currentUserId:currentUserId}})
+        } else {
+            dispatch({type : "REMOVE_FROM_LIKES", payload:{video:video, currentUserId:currentUserId}})
+        }
+    }
+    else{
+        alert("Please Login")
+    }
+    }
 
-    // function handleFollow(){
-    //     if (currentUserId !== null){
-    //         console.log(currUserVideoState);
-    //         if(searchFollowings(currUserVideoState,creatorDetails.creator_id) === false){
-    //             dispatch({type : "FOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
-    //         } else {
-    //             dispatch({type : "UNFOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
-    //         }
-    //     }
+    function handleFollow(){
+        if (currentUserId !== null){
+            console.log(currUserVideoState);
+            if(searchFollowings(currUserVideoState,creatorDetails.creator_id) === false){
+                dispatch({type : "FOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
+            } else {
+                dispatch({type : "UNFOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
+            }
+        }
         
-    //     else{
-    //         alert("Please Login")
-    //     } 
-    // }
-    // function handlePlaylist(){
-    //     if(currentUserId !== null){
-    //         setShowModal(true)
-    //     }else{
-    //         alert("Please Login")
-    //     }
-    // }
-
-
+        else{
+            alert("Please Login")
+        } 
+    }
+    function handlePlaylist(){
+        if(currentUserId !== null){
+            setShowModal(true)
+        }else{
+            alert("Please Login")
+        }
+    }
     return (
         
+        
         <div className="video-stream">
-            {/* <div className="video-embed">
+            <div className="video-embed">
                 <VideoEmbed width="100%" height="560" id={id} />
             </div>
             <div className="video-stream__info">
@@ -124,7 +119,7 @@ function VideoStream() {
                 {video.description}
                 </div>
                 
-            </div>   */}
+            </div>  
         </div>
     )
 }
