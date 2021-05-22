@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 import {useParams} from "react-router-dom"
 import axios from 'axios'
 import Video from "./../../molecules/Video/Video"
-import {searchCreator} from "./../../../utils/category/category" 
 import VideoGroup from "./../VideoGroup/VideoGroup"
 import CreatorDetails from "./../CreatorDetails/CreatorDetails"
 import Typography from "./../../atoms/Typography/Typography"
@@ -18,7 +17,8 @@ function Creator({kind}) {
     const {authState} = useAuth();
     const {currentUserId} = authState;
     const {videoState, dispatch} = useVideo();
-    const currUserVideoState = videoState.filter((item) => item.id === currentUserId)[0];
+    console.log(creatorDetails);
+    // const currUserVideoState = videoState.filter((item) => item.id === currentUserId)[0];
     
     useEffect(() => {
         (async function () {
@@ -37,9 +37,9 @@ function Creator({kind}) {
         })()
     }, [])
     function handleFollow(){
-        if (currentUserId !== null){
-            console.log(videoState);
-            if(searchFollowings(currUserVideoState,creatorDetails.creator_id) === false){
+        if (currentUserId !== null && creatorDetails !== "Loading..."){
+            console.log(videoState, "ahiya");
+            if(searchFollowings(videoState,creatorDetails._id) === false){
                 dispatch({type : "FOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
             } else {
                 dispatch({type : "UNFOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
@@ -54,7 +54,7 @@ function Creator({kind}) {
     return (
         <div>
         {
-            (creatorDetails !== "Loading...") ? <CreatorDetails name={creatorDetails.name} description={creatorDetails.description} thumbnail={creatorDetails.thumbnail} handleFollow={handleFollow} isFollowing={(currentUserId !== null) ? searchFollowings(currUserVideoState,creatorDetails.creator_id): false} currentUserId={currentUserId}/>: creatorDetails
+            (creatorDetails !== "Loading...") ? <CreatorDetails name={creatorDetails.name} description={creatorDetails.description} thumbnail={creatorDetails.thumbnail} handleFollow={handleFollow} isFollowing={(currentUserId !== null) ? searchFollowings(videoState,creatorDetails._id): false} currentUserId={currentUserId}/>: creatorDetails
         }
         
         <div>
