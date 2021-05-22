@@ -4,14 +4,15 @@ import Button from "../../atoms/Button/Button"
 import Search from "../../molecules/Search/Search"
 import {NavLink} from "react-router-dom"
 import {useAuth} from "./../../../context/auth-context"
+import {Link} from"react-router-dom"
 
 function Navbar() {
     const {authState, dispatch} = useAuth();
     const {isUserLoggedIn} = authState;
 
-    function handleLogin(){
-        dispatch({type:"LOGIN", payload:{userId:"60a13ddc7e25f80154b8ec80"}})
-    }
+    // function handleLogin(){
+    //     dispatch({type:"LOGIN", payload:{userId:"60a13ddc7e25f80154b8ec80"}})
+    // }
 
     function handleLogout(){
         dispatch({type:"LOGOUT", payload:{userId:authState.currentUserId}})
@@ -61,8 +62,8 @@ function Navbar() {
             <div className="nav-CTA">
                 {(isUserLoggedIn)?(<Button kind="filled" onClick={handleLogout}>Logout</Button>):
                 (   <div>
-                    <Button kind="filled" onClick={handleLogin}>Login</Button>
-                    <Button kind="outlined">Signup</Button>
+                    <Link to="/auth/login"><Button kind="filled">Login</Button></Link>
+                    <Link to="/auth/signup"><Button kind="filled">Signup</Button></Link>
                     </div>
                 )}
                 
