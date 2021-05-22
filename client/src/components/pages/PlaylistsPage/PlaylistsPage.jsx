@@ -23,11 +23,8 @@ function PlaylistsPage() {
                         return <div>
                         <h1> {playlist.name}</h1>
                         <VideoGroup>
-                            {playlist.videos.map((_id) => {
-                                console.log(videoState);
-                                
-                                const {name, thumbnail} = fetchVideoDetails(data, _id);
-                                return <Video kind="small-video" name={name} thumbnail={thumbnail} redirect={`/watch/${_id}`} />
+                            {playlist.videos.map((video) => {
+                                return <Video kind="small-video" name={video.creator_id.name} thumbnail={video.creator_id.thumbnail} redirect={`/watch/${video._id}`} />
                             })}
                         </VideoGroup>
                         </div>
