@@ -17,8 +17,6 @@ function Creator({kind}) {
     const {authState} = useAuth();
     const {currentUserId} = authState;
     const {videoState, dispatch} = useVideo();
-    console.log(creatorDetails);
-    // const currUserVideoState = videoState.filter((item) => item.id === currentUserId)[0];
     
     useEffect(() => {
         (async function () {
