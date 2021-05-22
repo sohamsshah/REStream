@@ -18,9 +18,7 @@ function VideoStream() {
     const [creatorDetails, setCreatorDetails] = useState("Loading...")
     const {authState} = useAuth();
     const {currentUserId} = authState;
-    console.log(currentUserId);
     const { videoState, dispatch } = useVideo();
-    console.log(videoState);
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
@@ -65,13 +63,13 @@ function VideoStream() {
             alert("Please Login")
         } 
     }
-    // function handlePlaylist(){
-    //     if(currentUserId !== null){
-    //         setShowModal(true)
-    //     }else{
-    //         alert("Please Login")
-    //     }
-    // }
+    function handlePlaylist(){
+        if(currentUserId !== null){
+            setShowModal(true)
+        }else{
+            alert("Please Login")
+        }
+    }
     return (
         
         
@@ -90,11 +88,11 @@ function VideoStream() {
                     >
                         {(currentUserId !== null)?(searchLikes(videoState,video) ? <AiFillLike /> : <AiOutlineLike />):<AiOutlineLike />}
                     </button>
-                    {/* <button onClick={handlePlaylist}className="video-stream__playlist">
+                    <button onClick={handlePlaylist}className="video-stream__playlist">
                     <RiPlayListAddFill />
                     </button>
                     <PlaylistModal video={video} showModal={showModal} setShowModal={setShowModal} />
-                     */}
+                    
                 </div>
                 
             </div>
