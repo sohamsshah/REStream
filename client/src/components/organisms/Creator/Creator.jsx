@@ -33,7 +33,7 @@ function Creator({kind}) {
                 console.log(error.message)
             }
         })()
-    }, [])
+    }, [id])
     function handleFollow(){
         if (currentUserId !== null && creatorDetails !== "Loading..."){
             console.log(videoState, "ahiya");

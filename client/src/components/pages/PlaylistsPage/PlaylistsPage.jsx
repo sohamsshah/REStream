@@ -4,12 +4,10 @@ import {useAuth} from "./../../../context/auth-context"
 import ContentHeading from '../../molecules/ContentHeading/ContentHeading'
 import VideoGroup from "./../../organisms/VideoGroup/VideoGroup"
 import Video from "./../../molecules/Video/Video"
-import {data} from "./../../../data/data"
-import {fetchVideoDetails} from './../../../utils/video/video'
 
 function PlaylistsPage() {
     const {authState} = useAuth();
-    const {currentUserId, isUserLoggedIn} = authState;
+    const {isUserLoggedIn} = authState;
     const { videoState} = useVideo();
     return (
         (isUserLoggedIn) ? 

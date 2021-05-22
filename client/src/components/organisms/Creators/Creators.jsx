@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import {data} from "../../../data/data"
 import axios from 'axios'
 import CardGroup from "../CardGroup/CardGroup"
 import CategoryCard from "../../molecules/CategoryCard/CategoryCard"
