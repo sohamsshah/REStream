@@ -13,7 +13,7 @@ export const dispatchFunc = (videoState, {type, payload}) => {
         case "REMOVE_FROM_PLAYLIST":
             return {...videoState, playlists: videoState.playlists.map(currPlaylist => {
                 if (currPlaylist.name === payload.name) {
-                    return {...currPlaylist, videos: currPlaylist.videos.filter(item => item !== payload.id)}
+                    return {...currPlaylist, videos: currPlaylist.videos.filter(item => item._id !== payload.video._id)}
                 } else {
                     return currPlaylist
                 } 
@@ -24,8 +24,8 @@ export const dispatchFunc = (videoState, {type, payload}) => {
         return {...videoState, playlists: videoState.playlists.map(currPlaylist => {
             
             if(currPlaylist.name === payload.name){
-                console.log({...currPlaylist, videos:[...currPlaylist.videos, payload.id]});
-                return {...currPlaylist, videos:[...currPlaylist.videos, payload.id]}
+    
+                return {...currPlaylist, videos:[...currPlaylist.videos, payload.video]}
             }else{
                 return {...currPlaylist}
             }})

@@ -7,7 +7,7 @@ import Video from "./../../molecules/Video/Video"
 
 function LikedVideosPage() {
     const {authState} = useAuth();
-    const {currentUserId, isUserLoggedIn} = authState;
+    const {isUserLoggedIn} = authState;
     const { videoState} = useVideo();
         return (
         (isUserLoggedIn) ? 

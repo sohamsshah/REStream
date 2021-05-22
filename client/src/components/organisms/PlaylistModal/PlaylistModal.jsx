@@ -15,11 +15,11 @@ function PlaylistModal({video, showModal, setShowModal}) {
         
         if(currentUserId !== null){
             if (searchPlaylist(item.videos, video._id) === true) {
-                dispatch({ type: "REMOVE_FROM_PLAYLIST", payload: { name: item.name, id: video._id, currentUserId:currentUserId } })
+                dispatch({ type: "REMOVE_FROM_PLAYLIST", payload: { name: item.name, video: video, currentUserId:currentUserId } })
             
             } else {
              
-                dispatch({ type: "ADD_TO_PLAYLIST", payload: { name: item.name, id: video._id} })
+                dispatch({ type: "ADD_TO_PLAYLIST", payload: { name: item.name, video: video} })
             }
         }
 
