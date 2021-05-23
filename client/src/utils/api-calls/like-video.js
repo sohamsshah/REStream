@@ -26,15 +26,10 @@ export const likeVideo = async (currentUserId, video, dispatch) => {
 }
 
 export const dislikeVideo = async (currentUserId, video, dispatch) => {
-    console.log(video, "here");
-    
-
     try {
-    
         const response = await axios.delete(
           `https://apirestream.sohamsshah.repl.co/userDetails/${currentUserId}/likedVideos/${video._id}`,
         );
-        console.log({response});
         if (response.status === 201) {
             dispatch({type:"REMOVE_FROM_LIKES", payload:{video:video}});
 

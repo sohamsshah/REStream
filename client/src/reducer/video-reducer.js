@@ -21,7 +21,7 @@ export const dispatchFunc = (videoState, {type, payload}) => {
 
         return {...videoState, playlists: videoState.playlists.map(currPlaylist => {
             
-            if(currPlaylist.name === payload.name){
+            if(currPlaylist._id === payload.playlistId){
     
                 return {...currPlaylist, videos:[...currPlaylist.videos, payload.video]}
             }else{
@@ -30,7 +30,7 @@ export const dispatchFunc = (videoState, {type, payload}) => {
         }
             
         case "ADD_NEW_PLAYLIST":
-            return {...videoState, playlists: [...videoState.playlists, {name: payload.name, videos:[]}]}
+            return {...videoState, playlists: [...videoState.playlists, payload.playlist]}
 
         case "FOLLOW":
             return {...videoState, following: [...videoState.following, payload.creator]}

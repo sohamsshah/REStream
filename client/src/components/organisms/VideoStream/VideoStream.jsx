@@ -11,6 +11,7 @@ import {RiPlayListAddFill} from "react-icons/ri"
 import PlaylistModal from "./../PlaylistModal/PlaylistModal"
 import Button from "./../../atoms/Button/Button"
 import {likeVideo, dislikeVideo} from "./../../../utils/api-calls/like-video";
+
 import "./VideoStream.css"
 
 function VideoStream() {
@@ -55,7 +56,6 @@ function VideoStream() {
         if (currentUserId !== null && video !== "Loading..."){
             
             if(searchFollowings(videoState,creatorDetails._id) === false){
-                
                 dispatch({type : "FOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
             } else {
                 dispatch({type : "UNFOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})

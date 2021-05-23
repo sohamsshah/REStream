@@ -3,6 +3,7 @@ import {useVideo} from "./../../../context/video-context"
 import "./PlaylistModal.css"
 import {searchPlaylist} from "./../../../utils/context-utils/context-utils"
 import {useAuth} from "./../../../context/auth-context"
+import {addNewPlaylist as addNewPlaylistToDB, addToPlaylist} from "./../../../utils/api-calls/playlist"
 
 
 function PlaylistModal({video, showModal, setShowModal}) {
@@ -11,25 +12,26 @@ function PlaylistModal({video, showModal, setShowModal}) {
     const { videoState, dispatch } = useVideo();
     const [modalInput, setModalInput] = useState("")
     
-    function checkBoxHandler(e, item) {
-        
+    async function checkBoxHandler(e, item) {
+        console.log(item);
         if(currentUserId !== null){
             if (searchPlaylist(item.videos, video._id) === true) {
                 dispatch({ type: "REMOVE_FROM_PLAYLIST", payload: { name: item.name, video: video, currentUserId:currentUserId } })
             
             } else {
-             
-                dispatch({ type: "ADD_TO_PLAYLIST", payload: { name: item.name, video: video} })
-            }
+                
+                addToPlaylist(currentUserId, item._id, video);
+                }
         }
 
     }
 
-    function addNewPlaylist(e){
+    async function addNewPlaylist(e){
         e.preventDefault();
         if (modalInput.trim().length === 0)
             return
-        dispatch({ type: "ADD_NEW_PLAYLIST", payload: {name:modalInput } })
+        addNewPlaylistToDB(currentUserId, modalInput, dispatch);        
+        
         setModalInput("");
     }
     return (
