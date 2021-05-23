@@ -10,6 +10,7 @@ import {AiFillLike, AiOutlineLike} from "react-icons/ai"
 import {RiPlayListAddFill} from "react-icons/ri"
 import PlaylistModal from "./../PlaylistModal/PlaylistModal"
 import Button from "./../../atoms/Button/Button"
+import {likeVideo, dislikeVideo} from "./../../../utils/api-calls/like-video";
 import "./VideoStream.css"
 
 function VideoStream() {
@@ -20,6 +21,7 @@ function VideoStream() {
     const {currentUserId} = authState;
     const { videoState, dispatch } = useVideo();
     const [showModal, setShowModal] = useState(false);
+    console.log(videoState);
 
     useEffect(() => {
         (async function () {
@@ -36,13 +38,13 @@ function VideoStream() {
         })()
     }, [id])
 
-    function handleLike(){
+    async function handleLike (){
         if (currentUserId !== null && video !== "Loading..."){
         if(searchLikes(videoState,video) === false){
-            dispatch({type : "ADD_TO_LIKES", payload:{video:video, currentUserId:currentUserId}})
-        } else {
-            dispatch({type : "REMOVE_FROM_LIKES", payload:{video:video, currentUserId:currentUserId}})
-        }
+            likeVideo(currentUserId,video, dispatch);
+              } else {
+            dislikeVideo(currentUserId,video, dispatch);
+            }
     }
     else{
         alert("Please Login")

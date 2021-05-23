@@ -33,7 +33,6 @@ export const signUpUser = async (email, username, password, dispatch) => {
             password: password
           }
         );
-        console.log({response})
         if (response.status === 201) {
             dispatch({type:"LOGIN", payload:{userId:response.data.user._id}})
         }
