@@ -3,7 +3,7 @@ import {useVideo} from "./../../../context/video-context"
 import "./PlaylistModal.css"
 import {searchPlaylist} from "./../../../utils/context-utils/context-utils"
 import {useAuth} from "./../../../context/auth-context"
-import {addNewPlaylist as addNewPlaylistToDB, addToPlaylist} from "./../../../utils/api-calls/playlist"
+import {addNewPlaylist as addNewPlaylistToDB, addToPlaylist, removeFromPlaylist} from "./../../../utils/api-calls/playlist"
 
 
 function PlaylistModal({video, showModal, setShowModal}) {
@@ -16,12 +16,11 @@ function PlaylistModal({video, showModal, setShowModal}) {
         console.log(item);
         if(currentUserId !== null){
             if (searchPlaylist(item.videos, video._id) === true) {
-                dispatch({ type: "REMOVE_FROM_PLAYLIST", payload: { name: item.name, video: video, currentUserId:currentUserId } })
-            
-            } else {
+                await removeFromPlaylist(currentUserId, item._id, video, dispatch);
                 
-                addToPlaylist(currentUserId, item._id, video);
-                }
+            } else {
+                await addToPlaylist(currentUserId, item._id, video, dispatch);
+            }
         }
 
     }

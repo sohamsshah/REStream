@@ -34,10 +34,35 @@ export const addToPlaylist = async (currentUserId, playlistId, video, dispatch) 
         console.log({response});
         
         if (response.status === 201) {
-        
-            const {video} = response.body;
+            console.log("jhere");
+            const {video} = response.data;
+            console.log(video);
             
-            dispatch({type:"ADD_TO_PLAYLIST", payload:{id: playlistId, video:video.videoId}});
+            dispatch({type:"ADD_TO_PLAYLIST", payload:{playlistId: playlistId, video:video.videoId}});
+
+        }
+      } catch (error) {
+       
+      } finally {
+        
+      }
+}
+
+export const removeFromPlaylist = async (currentUserId, playlistId, video, dispatch) => {
+
+    try {
+    
+        const response = await axios.delete(
+          `https://apirestream.sohamsshah.repl.co/userDetails/${currentUserId}/playlists/${playlistId}/${video._id}`,
+          
+        );
+        console.log({response});
+        
+        if (response.status === 201) {
+        
+            // const {video} = response.body;
+            
+            dispatch({type:"REMOVE_FROM_PLAYLIST", payload:{video: video, playlistId: playlistId}});
 
         }
       } catch (error) {

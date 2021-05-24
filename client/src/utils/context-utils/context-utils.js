@@ -7,7 +7,7 @@ export function searchLikes(state, video) {
 }
 
 export function searchPlaylist(playlists, videoID){
-    if (playlists.filter((item) => item.videoId === videoID).length === 0){
+    if (playlists.filter((item) => item._id === videoID).length === 0){
         return false
     } else{
         return true
