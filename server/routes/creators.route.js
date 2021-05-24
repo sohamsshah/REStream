@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Creator } = require("./../models/creator.model");
+const { Video } = require("./../models/video.model");
 
 router.get("/", async (req, res) => {
   try {
@@ -13,10 +14,12 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
+  console.log(id)
   let creator = await Creator.findById(id);
-  creator.__v = undefined;
-  if (creator) {
-    return res.status(200).json({ creator, success: true, message: "Successful" })
+  let videos = await Video.find({creator_id: id});
+  console.log(videos, creator);
+  if (creator && videos) {
+    return res.status(200).json({ videos, creator, success: true, message: "Successful" })
   } res.status(404).json({ success: false, message: "The creator ID sent has no creator associated with it. Check and try again" })
 });
 

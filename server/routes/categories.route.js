@@ -13,11 +13,11 @@ router.get("/", async (req, res) => {
 })
 
 router.get("/:category_name", async (req, res) => {
-  const { category_name } = req.params;
+  const  {category_name}  = req.params;
+  const category = await Category.find({category_name: category_name});
   let videos = await Video.find({category_name: category_name});
-  // video.__v = undefined;
-  if (videos) {
-    return res.status(200).json({ videos, success: true, message: "Successful" })
+  if (videos && category) {
+    return res.status(200).json({ category, videos, success: true, message: "Successful" })
   } res.status(404).json({ success: false, message: "The video ID sent has no video associated with it. Check and try again" })
 });
 

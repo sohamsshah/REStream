@@ -12,13 +12,11 @@ const VideoSchema = new Schema({
 });
 
 const Video = mongoose.model('Video', VideoSchema);
-console.log(Video.schema);
 
 const addVideosToDB = () => {
   videos.forEach(async (video) => {
     const NewVideo = new Video(video);
     const savedVideo = await NewVideo.save();
-    console.log(savedVideo);
   })
 }
 

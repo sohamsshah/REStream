@@ -15,6 +15,9 @@ router.get("/", async (req, res) => {
 router.param("userId", async (req, res, next, userId) => {
   try {
     const user = await UserDetail.findById(userId);
+
+    const users = await UserDetail.find({});
+    
     if (!user) {
       return res.status(400).json({ success: false, message: "unable to find user" });
     }
@@ -28,46 +31,125 @@ router.param("userId", async (req, res, next, userId) => {
 router.route("/:userId")
 .get(async (req, res) => {
     const { user } = req;
-    return res.json({ user, success: true })});
+    const updatedUser = await user.populate('likedVideos.videoId').populate('playlists.videos.videoId').execPopulate()
+    return res.json({ user: updatedUser, success: true })});
 
 router.route("/:userId/likedVideos")
 .get(async (req, res) => {
     const { user } = req;
     const updatedObj = await user.populate('likedVideos.videoId').execPopulate();
     return res.json({ likedVideos: updatedObj.likedVideos, success: true })})
+
 .post(async (req, res) => {
     const { user } = req;
     const video = req.body;
     user.likedVideos.push({ videoId: video.videoId });
-    await user.save();
-    const newVideo = user.likedVideos.find(item => item.videoId == video.videoId)
+    const savedUser = await user.save();
+    const updatedObj = await savedUser.populate('likedVideos.videoId').execPopulate();
+
+    const newVideo = updatedObj.likedVideos.find(item => item.videoId._id == video.videoId)
+
     return res.status(201).json({ addedVideo: newVideo, success: true, message: "Successful" });
   }) 
+
+router.route("/:userId/likedVideos/:videoId")
 .delete(async (req, res) => {
     const { user } = req;
-    const { videoId } = req.body;
+    const {videoId} = req.params;
+    
     const video = user.likedVideos.find(item => item.videoId == videoId)
     if (video) {
-      user.likedVideos.pull({ _id: video._id });
-      await user.save();
-      return res.status(200).json({ deletedVideo: video, success: true, message: "Successful" });
-    } else {
-      return res.status(404).json({ succes: false, message: "The video id you requested doesn't exists" });
-    }
-  })  
+      const updatedObj = await user.populate('likedVideos.videoId').execPopulate();
 
-router.route("/:userId/likedVideos")
-.get(async (req, res) => {
+      user.likedVideos.pull({ _id: video._id });
+      const savedUser = await user.save();
+
+      return res.status(201).json({ success: true, message: "Successful" });
+    } else {
+      return res.status(404).json({ success: false, message: "The video id you requested doesn't exists" });
+    }
+  }) 
+
+router.route('/:userId/playlists')
+  .get(async (req, res) => {
     const { user } = req;
-    const updatedObj = await user.populate('likedVideos.videoId').execPopulate();
-    return res.json({ likedVideos: updatedObj.likedVideos, success: true })})
-.post(async (req, res) => {
+    return res.json({ playlists: user.playlists, success: true })
+  })
+  .post(async (req, res) => {
     const { user } = req;
-    const video = req.body;
-    user.likedVideos.push({ videoId: video.videoId });
-    await user.save();
-    const newVideo = user.likedVideos.find(item => item.videoId == video.videoId)
-    return res.status(201).json({ addedVideo: newVideo, success: true, message: "Successful" });
-  })   
+    const { name } = req.body;
+    user.playlists.push({ name: name, videos: [] });
+    const savedUser = await user.save();
+    const savedPlaylist = savedUser.playlists.find((playlist) => playlist.name === name);
+    return res.status(201).json({ savedPlaylist:savedPlaylist, success: true, message: "Successful" });
+  });
+
+router.route('/:userId/playlists/:playlistId')
+  .post(async (req, res) => {
+    const { user } = req;
+    const { playlistId } = req.params;
+    const updatePlaylist = req.body;
+    const playlist = user.playlists.find(item => item._id == playlistId);
+    console.log(playlist);
+    if (playlist) {
+      const updatedPlaylist = extend(playlist, updatePlaylist)
+      await user.save();
+      return res.status(201).json({ playlists: updatedPlaylist, success: true, message: "Successful" });
+    }
+  })
+  .delete(async (req, res) => {
+    const { user } = req;
+    const { playlistId } = req.params;
+    const playlist = user.playlists.find(item => item._id == playlistId);
+    if (playlist) {
+      user.playlists.pull({ _id: playlist._id });
+      await user.save();
+      return res.status(200).json({ playlist: playlist, success: true, message: "Successful" });
+    } else {
+      return res.status(404).json({ success: false, message: "The video id you requested doesn't exists" });
+    }
+  })
+
+router.route('/:userId/playlists/:playlistId/:videoId')
+  .post(async (req, res) => {
+    const { user } = req;
+    const { playlistId, videoId } = req.params;
+    const playlist = user.playlists.find(function(item){
+      return item._id == playlistId;
+    });
+
+    if (playlist) {
+      playlist.videos.push({videoId});
+      
+      const savedUser = await user.save();
+
+      const updatedObj = await user.populate('playlists.videos.videoId').execPopulate();
+      
+
+      const addedVideo = updatedObj.playlists.find((item) => item._id == playlistId).videos.find(item => item.videoId._id == videoId)
+
+      return res.status(201).json({ video: addedVideo, success: true, message: "Successful" });
+    } else {
+      return res.status(404).json({ success: false, message: "The video id you requested doesn't exists" });
+    }
+  })
+  .delete(async (req, res) => {
+    const { user } = req;
+    const { playlistId, videoId } = req.params;
+    const playlist = user.playlists.find(function(item){
+      return item._id == playlistId});
+    if(playlist){
+      const updatedVideoPlaylist = playlist.videos.filter(item => item.videoId !== videoId);
+      const updatedPlaylist = extend(playlist, { videos: updatedVideoPlaylist })
+      await user.save();
+      return res.status(201).json({ success: true, message: "Successful" });
+    } else {
+      return res.status(404).json({ success: false, message: "The video id you requested doesn't exists" });
+    }
+    
+  })
+  
+
+   
 
 module.exports = router;

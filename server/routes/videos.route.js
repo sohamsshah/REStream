@@ -14,9 +14,9 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   let video = await Video.findById(id);
-  video.__v = undefined;
+  const populatedVideo = await video.populate('creator_id').execPopulate();
   if (video) {
-    return res.status(200).json({ video, success: true, message: "Successful" })
+    return res.status(200).json({ video: populatedVideo, success: true, message: "Successful" })
   } res.status(404).json({ success: false, message: "The video ID sent has no video associated with it. Check and try again" })
 });
 
