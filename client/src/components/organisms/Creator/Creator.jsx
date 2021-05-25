@@ -8,6 +8,7 @@ import Typography from "./../../atoms/Typography/Typography"
 import {useAuth} from "./../../../context/auth-context"
 import {useVideo} from "./../../../context/video-context"
 import {searchFollowings} from "./../../../utils/context-utils/context-utils"
+import {followCreator, unfollowCreator} from "./../../../utils/api-calls/following" 
 import "./Creator.css"
 
 function Creator({kind}) {
@@ -17,6 +18,7 @@ function Creator({kind}) {
     const {authState} = useAuth();
     const {currentUserId} = authState;
     const {videoState, dispatch} = useVideo();
+    console.log(videoState);
     
     useEffect(() => {
         (async function () {
@@ -36,11 +38,12 @@ function Creator({kind}) {
     }, [id])
     function handleFollow(){
         if (currentUserId !== null && creatorDetails !== "Loading..."){
-            console.log(videoState, "ahiya");
             if(searchFollowings(videoState,creatorDetails._id) === false){
-                dispatch({type : "FOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
+                followCreator(currentUserId, creatorDetails, dispatch);
+                // dispatch({type : "FOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
             } else {
-                dispatch({type : "UNFOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
+                unfollowCreator(currentUserId, creatorDetails, dispatch);
+                // dispatch({type : "UNFOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
             }
         }
         

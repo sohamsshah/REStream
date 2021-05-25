@@ -15,6 +15,7 @@ export function searchPlaylist(playlists, videoID){
 }
 
 export function searchFollowings(state, creatorID) {
+    console.log(state, creatorID);
     if (state.following.filter((item) => item._id === creatorID).length === 0) {
         return false
     } else {

@@ -13,7 +13,6 @@ function PlaylistModal({video, showModal, setShowModal}) {
     const [modalInput, setModalInput] = useState("")
     
     async function checkBoxHandler(e, item) {
-        console.log(item);
         if(currentUserId !== null){
             if (searchPlaylist(item.videos, video._id) === true) {
                 await removeFromPlaylist(currentUserId, item._id, video, dispatch);

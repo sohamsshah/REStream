@@ -59,8 +59,6 @@ export const removeFromPlaylist = async (currentUserId, playlistId, video, dispa
         console.log({response});
         
         if (response.status === 201) {
-        
-            // const {video} = response.body;
             
             dispatch({type:"REMOVE_FROM_PLAYLIST", payload:{video: video, playlistId: playlistId}});
 
