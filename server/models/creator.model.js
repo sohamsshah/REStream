@@ -5,7 +5,6 @@ const {creators} = require("./../data");
 
 
 const CreatorSchema = new Schema({
-  // _id: Schema.Types.ObjectId,
   thumbnail: String,
   redirect: String,
   isChannel: Boolean,
@@ -20,7 +19,6 @@ const addCreatorsToDB = () => {
   creators.forEach(async (creator) => {
     const NewCreator = new Creator(creator);
     const savedCreator = await NewCreator.save();
-    console.log(savedCreator);
   })
 }
 

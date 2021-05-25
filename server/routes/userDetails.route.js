@@ -90,7 +90,6 @@ router.route('/:userId/playlists/:playlistId')
     const { playlistId } = req.params;
     const updatePlaylist = req.body;
     const playlist = user.playlists.find(item => item._id == playlistId);
-    console.log(playlist);
     if (playlist) {
       const updatedPlaylist = extend(playlist, updatePlaylist)
       await user.save();
@@ -147,7 +146,35 @@ router.route('/:userId/playlists/:playlistId/:videoId')
       return res.status(404).json({ success: false, message: "The video id you requested doesn't exists" });
     }
     
-  })
+  });
+
+router.route('/:userId/follow/:creatorId')
+.post(async (req, res) => {
+    const { user } = req;
+    const { creatorId } = req.params;
+    user.following.push({ creatorId: creatorId });
+    const savedUser = await user.save();
+    const updatedObj = await savedUser.populate('following.creatorId').execPopulate();
+    const followedCreator = updatedObj.following.find(item => item.creatorId._id == creatorId);
+
+    return res.status(201).json({ followedCreator, success: true, message: "Successful" }); 
+    
+})
+.delete(async (req, res) => {
+    const { user } = req;
+    const { creatorId } = req.params;
+
+    const creator = user.following.find(item => item.creatorId == creatorId)
+    if (creator) {
+      const updatedObj = await user.populate('following.creatorId').execPopulate();
+      const unfollowedCreator = updatedObj.following.find(item => item.creatorId._id == creatorId);
+      user.following.pull({ _id: creator._id });
+      const savedUser = await user.save();
+      return res.status(201).json({ unfollowedCreator, success: true, message: "Successful" });
+    } else {
+      return res.status(404).json({ success: false, message: "The creator id you requested doesn't exists" });
+    }   
+})
   
 
    

@@ -17,19 +17,9 @@ const findUserByUserName = (username) => {
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await findUserByUserName(username);
-  console.log("hello");
   
   if (user) {
     if (user.password && user.password === password) {
-      // console.log(user._id);
-      // const userFromDB = await UserDetail.findById(user._id);
-      // console.log(userFromDB);
-      // console.log(user);
-      // const updatedUser = await userFromDB.populate('likedVideos.videoId').execPopulate();
-      
-      // console.log("-----------------")
-      
-
       return res.status(200).json({ user, success: true, message: "Login Successful" })
 
     } res.status(403).json({ success: false, message: "Wrong Password. Enter correct password" })
