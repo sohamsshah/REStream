@@ -11,6 +11,7 @@ import {RiPlayListAddFill} from "react-icons/ri"
 import PlaylistModal from "./../PlaylistModal/PlaylistModal"
 import Button from "./../../atoms/Button/Button"
 import {likeVideo, dislikeVideo} from "./../../../utils/api-calls/like-video";
+import {followCreator, unfollowCreator} from "./../../../utils/api-calls/following"
 
 import "./VideoStream.css"
 
@@ -52,13 +53,13 @@ function VideoStream() {
     }
     }
 
-    function handleFollow(){
+    async function handleFollow(){
         if (currentUserId !== null && video !== "Loading..."){
             
             if(searchFollowings(videoState,creatorDetails._id) === false){
-                dispatch({type : "FOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
+                followCreator(currentUserId, creatorDetails, dispatch);
             } else {
-                dispatch({type : "UNFOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
+                unfollowCreator(currentUserId, creatorDetails, dispatch);
             }
         } 
         else{
