@@ -3,6 +3,7 @@ const router = express.Router();
 const { extend } = require("lodash");
 const { UserDetail } = require("./../models/userDetails.model");
 
+// GET details of all users 
 router.get("/", async (req, res) => {
   try {
     const userDetails = await UserDetail.find({});
@@ -12,6 +13,7 @@ router.get("/", async (req, res) => {
   }
 })
 
+// Add the requested User in the REQUEST Object to access everywhere
 router.param("userId", async (req, res, next, userId) => {
   try {
     const user = await UserDetail.findById(userId);
@@ -28,18 +30,21 @@ router.param("userId", async (req, res, next, userId) => {
   }
 })
 
+// GET all details of the requested user with populated data
 router.route("/:userId")
 .get(async (req, res) => {
     const { user } = req;
     const updatedUser = await user.populate('likedVideos.videoId').populate('playlists.videos.videoId').execPopulate()
     return res.json({ user: updatedUser, success: true })});
 
+// GET all liked videos of the requested User
 router.route("/:userId/likedVideos")
 .get(async (req, res) => {
     const { user } = req;
     const updatedObj = await user.populate('likedVideos.videoId').execPopulate();
     return res.json({ likedVideos: updatedObj.likedVideos, success: true })})
 
+// POST requested video to Liked videos of the requested user
 .post(async (req, res) => {
     const { user } = req;
     const video = req.body;
@@ -52,6 +57,7 @@ router.route("/:userId/likedVideos")
     return res.status(201).json({ addedVideo: newVideo, success: true, message: "Successful" });
   }) 
 
+// REMOVE the video from Liked Videos of the requested User
 router.route("/:userId/likedVideos/:videoId")
 .delete(async (req, res) => {
     const { user } = req;
@@ -71,10 +77,12 @@ router.route("/:userId/likedVideos/:videoId")
   }) 
 
 router.route('/:userId/playlists')
+  // GET all playlists of the Requested User
   .get(async (req, res) => {
     const { user } = req;
     return res.json({ playlists: user.playlists, success: true })
   })
+  // CREATE NEW PLAYLIST
   .post(async (req, res) => {
     const { user } = req;
     const { name } = req.body;
@@ -85,6 +93,7 @@ router.route('/:userId/playlists')
   });
 
 router.route('/:userId/playlists/:playlistId')
+  // POST the updates of the playlist made by the requested User 
   .post(async (req, res) => {
     const { user } = req;
     const { playlistId } = req.params;
@@ -96,6 +105,8 @@ router.route('/:userId/playlists/:playlistId')
       return res.status(201).json({ playlists: updatedPlaylist, success: true, message: "Successful" });
     }
   })
+
+  // DELETE the Playlist of the requested User
   .delete(async (req, res) => {
     const { user } = req;
     const { playlistId } = req.params;
@@ -109,7 +120,9 @@ router.route('/:userId/playlists/:playlistId')
     }
   })
 
+
 router.route('/:userId/playlists/:playlistId/:videoId')
+  // Add Video to the Playlist
   .post(async (req, res) => {
     const { user } = req;
     const { playlistId, videoId } = req.params;
@@ -132,6 +145,7 @@ router.route('/:userId/playlists/:playlistId/:videoId')
       return res.status(404).json({ success: false, message: "The video id you requested doesn't exists" });
     }
   })
+  // Delete Video from Playlist
   .delete(async (req, res) => {
     const { user } = req;
     const { playlistId, videoId } = req.params;
@@ -149,6 +163,7 @@ router.route('/:userId/playlists/:playlistId/:videoId')
   });
 
 router.route('/:userId/follow/:creatorId')
+// Add creator to User's followings
 .post(async (req, res) => {
     const { user } = req;
     const { creatorId } = req.params;
@@ -160,6 +175,7 @@ router.route('/:userId/follow/:creatorId')
     return res.status(201).json({ followedCreator, success: true, message: "Successful" }); 
     
 })
+// Remove creator from User's followings
 .delete(async (req, res) => {
     const { user } = req;
     const { creatorId } = req.params;
@@ -171,6 +187,51 @@ router.route('/:userId/follow/:creatorId')
       user.following.pull({ _id: creator._id });
       const savedUser = await user.save();
       return res.status(201).json({ unfollowedCreator, success: true, message: "Successful" });
+    } else {
+      return res.status(404).json({ success: false, message: "The creator id you requested doesn't exists" });
+    }   
+});
+
+router.route('/:userId/history')
+// GET User's History
+.get(async (req, res) => {
+    const { user } = req;
+    const updatedObj = await user.populate('history.videoId').execPopulate();
+    return res.status(201).json({ history: updatedObj.history, success: true, message: "Successful" });   
+})
+// DELETE All History
+.delete(async (req, res) => {
+    const { user } = req;
+    user.history = []
+    const savedUser = await user.save()
+    return res.status(201).json({ success: true, message: "Successful" });   
+})
+
+router.route('/:userId/history/:videoId')
+// Add video to User's History
+.post(async (req, res) => {
+    const { user } = req;
+    const { videoId } = req.params;
+    console.log(videoId);
+    user.history.push({ videoId: videoId });
+    const savedUser = await user.save();
+    const updatedObj = await savedUser.populate('history.videoId').execPopulate();
+    console.log(updatedObj);
+    const addedVideo = updatedObj.history.find(item => item.videoId._id == videoId);
+    return res.status(201).json({ addedVideo: addedVideo, success: true, message: "Successful" });   
+})
+// Remove Video from User's History
+.delete(async (req, res) => {
+    const { user } = req;
+    const { videoId } = req.params;
+
+    const video = user.history.find(item => item.videoId == videoId)
+    if (video) {
+      const updatedObj = await user.populate('history.videoId').execPopulate();
+      // const unfollowedCreator = updatedObj.following.find(item => item.creatorId._id == creatorId);
+      user.history.pull({ _id: video._id });
+      const savedUser = await user.save();
+      return res.status(201).json({ success: true, message: "Successful" });
     } else {
       return res.status(404).json({ success: false, message: "The creator id you requested doesn't exists" });
     }   
