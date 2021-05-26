@@ -4,7 +4,7 @@ import "./PlaylistModal.css"
 import {searchPlaylist} from "./../../../utils/context-utils/context-utils"
 import {useAuth} from "./../../../context/auth-context"
 import {addNewPlaylist as addNewPlaylistToDB, addToPlaylist, removeFromPlaylist} from "./../../../utils/api-calls/playlist"
-
+import Button from "./../../atoms/Button/Button"
 
 function PlaylistModal({video, showModal, setShowModal}) {
     const {authState} = useAuth();
@@ -42,7 +42,7 @@ function PlaylistModal({video, showModal, setShowModal}) {
                 className="modal"
             >
                 <div className="modal__heading">
-                    ADD TO PLAYLIST
+                    Add to Playlist
                 </div>
                 <div className="modal__options">
                     {
@@ -52,7 +52,7 @@ function PlaylistModal({video, showModal, setShowModal}) {
                             return (
                                 <div
                                     key = {index}
-                                    className="checkbox">
+                                    className="modal__checkbox">
                                     <label htmlFor={`checkBox${index}`}>
                                         <input
                                             onChange={(e) => checkBoxHandler(e, item)} type="checkbox"
@@ -68,14 +68,15 @@ function PlaylistModal({video, showModal, setShowModal}) {
                         ):""
                     }
                 </div>
-                <form onSubmit={(e) => addNewPlaylist(e)} className="modal-add">
+                <form onSubmit={(e) => addNewPlaylist(e)} className="modal__add">
                     <input
                         value={modalInput}
                         onChange={(e) => setModalInput(e.target.value)}
                         type="text"
                         placeholder="New PlayList.."
                     />
-                    <button type="submit" >ADD</button>
+                    <Button type="submit">ADD</Button>
+                    
                 </form>
                 
 

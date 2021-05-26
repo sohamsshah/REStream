@@ -11,7 +11,8 @@ import {RiPlayListAddFill} from "react-icons/ri"
 import PlaylistModal from "./../PlaylistModal/PlaylistModal"
 import Button from "./../../atoms/Button/Button"
 import {likeVideo, dislikeVideo} from "./../../../utils/api-calls/like-video";
-import {followCreator, unfollowCreator} from "./../../../utils/api-calls/following"
+import {followCreator, unfollowCreator} from "./../../../utils/api-calls/following";
+import {addToHistory} from "./../../../utils/api-calls/history";
 
 import "./VideoStream.css"
 
@@ -39,6 +40,16 @@ function VideoStream() {
             }
         })()
     }, [id])
+
+    useEffect(() => {
+        if(currentUserId !== null){
+            if(video !== "Loading..." && video._id !== undefined){
+                console.log("CALLED");
+                addToHistory(currentUserId, video, dispatch);
+            }
+        }
+        
+    }, [video]);
 
     async function handleLike (){
         if (currentUserId !== null && video !== "Loading..."){
