@@ -228,10 +228,10 @@ router.route('/:userId/history/:videoId')
     const video = user.history.find(item => item.videoId == videoId)
     if (video) {
       const updatedObj = await user.populate('history.videoId').execPopulate();
-      // const unfollowedCreator = updatedObj.following.find(item => item.creatorId._id == creatorId);
+      const removedVideo = updatedObj.history.find(item => item.videoId._id == videoId);
       user.history.pull({ _id: video._id });
       const savedUser = await user.save();
-      return res.status(201).json({ success: true, message: "Successful" });
+      return res.status(201).json({ removedVideo, success: true, message: "Successful" });
     } else {
       return res.status(404).json({ success: false, message: "The creator id you requested doesn't exists" });
     }   
