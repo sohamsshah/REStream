@@ -22,13 +22,13 @@ function FollowingPage() {
             <Typography className="following__heading" fontSize="ml" fontWeight="semibold">
                 Channels You Follow
             </Typography>
-                {(videoState.following.filter(({isChannel}) => isChannel).length) ? 
+                {(videoState.following.filter(({creatorId}) => creatorId.isChannel).length) ? 
                 <CardGroup>
                     {
                         
-                    videoState.following.map(({name, thumbnail, redirect, creator_id, isChannel}) => {
-                        if (isChannel){
-                        return <CategoryCard name={name} thumbnail={thumbnail} redirect={redirect+`${creator_id}`} />
+                    videoState.following.map(({creatorId}) => {
+                        if (creatorId.isChannel){
+                        return <CategoryCard name={creatorId.name} thumbnail={creatorId.thumbnail} redirect={creatorId.redirect+`${creatorId._id}`} />
                         }
                         return ""
                     })}
@@ -41,17 +41,18 @@ function FollowingPage() {
             <Typography className="following__heading" fontSize="ml" fontWeight="semibold">
                 Creators You Follow
             </Typography>
-            {(videoState.following.filter(({isChannel}) => !isChannel).length) ? 
+            {(videoState.following.filter(({creatorId}) => !creatorId.isChannel).length) ? 
                 <CardGroup>
-                    {videoState.following.map(({name, thumbnail, redirect, creator_id, isChannel}) => {
-                        if (!isChannel){
-                        return <CategoryCard name={name} thumbnail={thumbnail} redirect={redirect+`${creator_id}`} />
+                    {
+                        
+                    videoState.following.map(({creatorId}) => {
+                        if (!creatorId.isChannel){
+                        return <CategoryCard name={creatorId.name} thumbnail={creatorId.thumbnail} redirect={creatorId.redirect+`${creatorId._id}`} />
                         }
                         return ""
                     })}
-                </CardGroup> : 
-                <div>
-                    Seems you haven't followed any Instructors yet. Follow some <Link to="/instructors">Instructors</Link> to get started!
+                </CardGroup> : <div>
+                    Seems you haven't followed any Channels yet. Follow some <Link to="/channels">Channels</Link> to get started!
                 </div>
                 }
             </div>
