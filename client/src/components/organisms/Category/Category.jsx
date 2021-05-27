@@ -6,13 +6,13 @@ import VideoGroup from "./../VideoGroup/VideoGroup"
 import CategoryDetails from "./../CategoryDetails/CategoryDetails"
 import Typography from "./../../atoms/Typography/Typography"
 import "./Category.css"
+import Spinner from "./../../atoms/Spinner/Spinner"
 
 function Category() {
-    const [categoryVideos, setCategoryVideos] = useState("Loading...")
-    const [categoryDetails, setCategoryDetails] = useState("Loading...")
+    const [categoryVideos, setCategoryVideos] = useState(null)
+    const [categoryDetails, setCategoryDetails] = useState(null)
     const { category } = useParams();
-    const {name, thumbnail, description, tags} = categoryDetails[0];
-    console.log(categoryVideos);
+    
 
     useEffect(() => {
         (async function () {
@@ -21,7 +21,7 @@ function Category() {
                 if (response.status === 200) {
                     
                     setCategoryVideos(response.data.videos)
-                    setCategoryDetails(response.data.category)
+                setCategoryDetails(response.data.category[0])
                 }
             }
             catch (error) {
@@ -30,9 +30,10 @@ function Category() {
         })()
     }, [category])
     return (
-        <div>
+        (categoryDetails !== null && categoryVideos !== null) ?
+        (<div>
             {
-                (categoryDetails !== "Loading...") ? <CategoryDetails name={name} thumbnail={thumbnail} description={description} tags={tags} /> :categoryDetails
+                (categoryDetails !== null) ? <CategoryDetails name={categoryDetails.name} thumbnail={categoryDetails.thumbnail} description={categoryDetails.description} tags={categoryDetails.tags} /> :categoryDetails
             }
             
             <div>
@@ -40,12 +41,12 @@ function Category() {
 
 
                 <VideoGroup>
-                    {categoryVideos !== "Loading..." ? categoryVideos.map(({ name, creator_id, thumbnail, _id, category_name }) => <Video category={category_name} name={name} thumbnail={thumbnail} redirect={`/watch/${_id}`} />) : categoryVideos
+                    {categoryVideos !== null ? categoryVideos.map(({ name, creator_id, thumbnail, _id, category_name }) => <Video category={category_name} name={name} thumbnail={thumbnail} redirect={`/watch/${_id}`} />) : categoryVideos
                     }
                 </VideoGroup>
             </div>
         </div>
-
+) : <Spinner />
     )
 }
 

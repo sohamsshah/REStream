@@ -13,13 +13,14 @@ import Button from "./../../atoms/Button/Button"
 import {likeVideo, dislikeVideo} from "./../../../utils/api-calls/like-video";
 import {followCreator, unfollowCreator} from "./../../../utils/api-calls/following";
 import {addToHistory} from "./../../../utils/api-calls/history";
+import Spinner from "./../../atoms/Spinner/Spinner"
 
 import "./VideoStream.css"
 
 function VideoStream() {
     const {id} = useParams()
-    const [video, setVideo] = useState("Loading...");
-    const [creatorDetails, setCreatorDetails] = useState("Loading...")
+    const [video, setVideo] = useState(null);
+    const [creatorDetails, setCreatorDetails] = useState(null)
     const {authState} = useAuth();
     const {currentUserId} = authState;
     const { videoState, dispatch } = useVideo();
@@ -43,7 +44,7 @@ function VideoStream() {
 
     useEffect(() => {
         if(currentUserId !== null){
-            if(video !== "Loading..." && video._id !== undefined){
+            if(video !== null && video._id !== undefined){
                 addToHistory(currentUserId, video, dispatch);
             }
         }
@@ -51,7 +52,7 @@ function VideoStream() {
     }, [video]);
 
     async function handleLike (){
-        if (currentUserId !== null && video !== "Loading..."){
+        if (currentUserId !== null && video !== null){
         if(searchLikes(videoState,video._id) === false){
             likeVideo(currentUserId,video, dispatch);
               } else {
@@ -64,7 +65,7 @@ function VideoStream() {
     }
 
     async function handleFollow(){
-        if (currentUserId !== null && video !== "Loading..."){
+        if (currentUserId !== null && video !== null){
             
             if(searchFollowings(videoState,creatorDetails._id) === false){
                 followCreator(currentUserId, creatorDetails, dispatch);
@@ -85,8 +86,9 @@ function VideoStream() {
     }
     return (
         
-        
-        <div className="video-stream">
+        (video !== null && creatorDetails !== null) ? 
+        (<div className="video-stream">
+            {/* <Spinner /> */}
             <div className="video-embed">
                 <VideoEmbed width="100%" height="560" id={id} />
             </div>
@@ -131,7 +133,7 @@ function VideoStream() {
                 </div>
                 
             </div>  
-        </div>
+        </div>) : <Spinner />
     )
 }
 

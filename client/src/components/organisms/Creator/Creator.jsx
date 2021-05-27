@@ -9,12 +9,13 @@ import {useAuth} from "./../../../context/auth-context"
 import {useVideo} from "./../../../context/video-context"
 import {searchFollowings} from "./../../../utils/context-utils/context-utils"
 import {followCreator, unfollowCreator} from "./../../../utils/api-calls/following" 
+import Spinner from "./../../atoms/Spinner/Spinner"
 import "./Creator.css"
 
 function Creator({kind}) {
     const { id } = useParams();
-    const [creatorVideos, setCreatorVideos] = useState("Loading...");
-    const [creatorDetails, setCreatorDetails] = useState("Loading...")
+    const [creatorVideos, setCreatorVideos] = useState(null);
+    const [creatorDetails, setCreatorDetails] = useState(null)
     const {authState} = useAuth();
     const {currentUserId} = authState;
     const {videoState, dispatch} = useVideo();
@@ -37,7 +38,7 @@ function Creator({kind}) {
         })()
     }, [id])
     function handleFollow(){
-        if (currentUserId !== null && creatorDetails !== "Loading..."){
+        if (currentUserId !== null && creatorDetails !== null){
             if(searchFollowings(videoState,creatorDetails._id) === false){
                 followCreator(currentUserId, creatorDetails, dispatch);
                 // dispatch({type : "FOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
@@ -53,19 +54,20 @@ function Creator({kind}) {
     }
     
     return (
-        <div>
+        (creatorDetails !== null && creatorVideos) ?
+        (<div>
         {
-            (creatorDetails !== "Loading...") ? <CreatorDetails name={creatorDetails.name} description={creatorDetails.description} thumbnail={creatorDetails.thumbnail} handleFollow={handleFollow} isFollowing={(currentUserId !== null) ? searchFollowings(videoState,creatorDetails._id): false} currentUserId={currentUserId}/>: creatorDetails
+            (creatorDetails !== null) ? <CreatorDetails name={creatorDetails.name} description={creatorDetails.description} thumbnail={creatorDetails.thumbnail} handleFollow={handleFollow} isFollowing={(currentUserId !== null) ? searchFollowings(videoState,creatorDetails._id): false} currentUserId={currentUserId}/>: creatorDetails
         }
         
         <div>
         <Typography className="creator__subheading" fontSize="xl" fontWeight="semibold">Videos</Typography>
             <VideoGroup>
-                {creatorVideos !== "Loading..." ? creatorVideos.map(({name, creator_id, thumbnail, _id, category}) => <Video category = {category} name={name} thumbnail={thumbnail} redirect={`/watch/${_id}`}  />) : creatorVideos}
+                {creatorVideos !== null ? creatorVideos.map(({name, creator_id, thumbnail, _id, category}) => <Video category = {category} name={name} thumbnail={thumbnail} redirect={`/watch/${_id}`}  />) : creatorVideos}
             </VideoGroup>
         </div>
         
-        </div>
+        </div>) : <Spinner />
     )
 }
 

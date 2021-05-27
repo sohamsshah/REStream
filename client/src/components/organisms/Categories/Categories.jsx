@@ -4,9 +4,10 @@ import axios from 'axios'
 import CardGroup from "./../CardGroup/CardGroup"
 import CategoryCard from "../../molecules/CategoryCard/CategoryCard"
 import ContentHeading from "./../../molecules/ContentHeading/ContentHeading"
+import Spinner from "./../../atoms/Spinner/Spinner"
 
 function Categories() {
-    const [categories, setCategories] = useState("Loading...")
+    const [categories, setCategories] = useState(null)
     useEffect(() => {
         (async function () {
             try {
@@ -27,9 +28,9 @@ function Categories() {
             <ContentHeading>Categories</ContentHeading>
             <CardGroup>
             {
-            categories !== "Loading..." ? categories.map(({name, thumbnail, tags, redirect}) => {
+            categories !== null ? categories.map(({name, thumbnail, tags, redirect}) => {
                 return <CategoryCard name={name} thumbnail={thumbnail} redirect={redirect} tags={tags}/>
-            }) : categories}
+            }) : <Spinner />}
             </CardGroup>
         </div>
     )
