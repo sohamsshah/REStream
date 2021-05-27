@@ -44,7 +44,6 @@ function VideoStream() {
     useEffect(() => {
         if(currentUserId !== null){
             if(video !== "Loading..." && video._id !== undefined){
-                console.log("CALLED");
                 addToHistory(currentUserId, video, dispatch);
             }
         }
@@ -53,7 +52,7 @@ function VideoStream() {
 
     async function handleLike (){
         if (currentUserId !== null && video !== "Loading..."){
-        if(searchLikes(videoState,video) === false){
+        if(searchLikes(videoState,video._id) === false){
             likeVideo(currentUserId,video, dispatch);
               } else {
             dislikeVideo(currentUserId,video, dispatch);
@@ -98,9 +97,9 @@ function VideoStream() {
                 <div className="info__buttons">
                     <button
                         onClick = {handleLike}
-                        className={(currentUserId !== null)?(searchLikes(videoState, video) ? "video-stream__like like__clicked" : "video-stream__like"):"video-stream__like"}
+                        className={(currentUserId !== null)?(searchLikes(videoState, video._id) ? "video-stream__like like__clicked" : "video-stream__like"):"video-stream__like"}
                     >
-                        {(currentUserId !== null)?(searchLikes(videoState,video) ? <AiFillLike /> : <AiOutlineLike />):<AiOutlineLike />}
+                        {(currentUserId !== null)?(searchLikes(videoState,video._id) ? <AiFillLike /> : <AiOutlineLike />):<AiOutlineLike />}
                     </button>
                     <button onClick={handlePlaylist}className="video-stream__playlist">
                     <RiPlayListAddFill />

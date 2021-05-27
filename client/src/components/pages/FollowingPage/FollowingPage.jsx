@@ -14,8 +14,7 @@ function FollowingPage() {
     const {currentUserId} = authState;
     const { videoState} = useVideo();
     console.log(videoState);
-    // const currUserVideoState = videoState.filter((item) => item.id === currentUserId)[0];
-    return (
+        return (
         (currentUserId !== null) ?
             <div className="following">
             <ContentHeading fontSize="2rem">Following</ContentHeading>

@@ -10,9 +10,8 @@ export const followCreator = async (currentUserId, creator, dispatch) => {
         console.log({response});
         if (response.status === 201) {
             const {followedCreator} = response.data;
-            const {creatorId} = followedCreator;
         
-            dispatch({type : "FOLLOW", payload:{creator:creatorId}})
+            dispatch({type : "FOLLOW", payload:{creator:followedCreator}})
         }
       } catch (error) {
        
@@ -29,8 +28,8 @@ export const unfollowCreator = async (currentUserId, creator, dispatch) => {
         console.log({response});
         if (response.status === 201) {
             const {unfollowedCreator} = response.data;
-            const {creatorId} = unfollowedCreator
-            dispatch({type:"UNFOLLOW", payload:{creator:creatorId}});
+            
+            dispatch({type:"UNFOLLOW", payload:{creator:unfollowedCreator}});
 
         }
       } catch (error) {
