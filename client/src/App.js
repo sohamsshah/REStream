@@ -20,6 +20,7 @@ import LikedVideosPage from './components/pages/LikedVideosPage/LikedVideosPage'
 import PlaylistsPage from './components/pages/PlaylistsPage/PlaylistsPage';
 import LoginPage from './components/pages/LoginPage/LoginPage';
 import SignupPage from './components/pages/SignupPage.jsx/SignupPage';
+import HistoryPage from './components/pages/HistoryPage/HistoryPage';
 
 function App() {
   return (
@@ -37,6 +38,8 @@ function App() {
         <Route path="/following" exact component={() => <VideoPage Content={FollowingPage} />} />
         <Route path="/liked" exact component={() => <VideoPage Content={LikedVideosPage} />} />
         <Route path="/playlists" exact component={() => <VideoPage Content={PlaylistsPage} />} />
+        <Route path="/history" exact component={() => <VideoPage Content={HistoryPage} />} />
+        
         <Route path="/auth/login" exact component={() => <VideoPage Content={LoginPage} />} />
         <Route path="/auth/signup" exact component={() => <VideoPage Content={SignupPage} />} />
         

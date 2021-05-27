@@ -5,7 +5,7 @@ import ContentHeading from '../../molecules/ContentHeading/ContentHeading'
 import VideoGroup from "./../../organisms/VideoGroup/VideoGroup"
 import Video from "./../../molecules/Video/Video"
 
-function LikedVideosPage() {
+function HistoryPage() {
     const {authState} = useAuth();
     const {isUserLoggedIn} = authState;
     const { videoState} = useVideo();
@@ -13,11 +13,11 @@ function LikedVideosPage() {
         (isUserLoggedIn) ? 
         <div>
            <div className="liked">
-            <ContentHeading fontSize="2rem">Liked Videos</ContentHeading>
+            <ContentHeading fontSize="2rem">Watch History</ContentHeading>
             <div>
             <VideoGroup> 
 
-            {videoState.likedVideos.map(({videoId}) => 
+            {videoState.history.map(({videoId}) => 
             <div>
                 <Video name={videoId.name} thumbnail={videoId.thumbnail} kind="small-video" redirect={`/watch/${videoId._id}`}/>
             </div>)}
@@ -29,4 +29,4 @@ function LikedVideosPage() {
     )
 }
 
-export default LikedVideosPage
+export default HistoryPage

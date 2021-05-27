@@ -73,14 +73,14 @@ function Sidebar() {
                     <div>Your Playlists</div>
                 </NavLink>
 
-                <NavLink activeStyle={{
+                {/* <NavLink activeStyle={{
                     backgroundColor: `var(--secondary-color)`,
                     color: `white`
                 }}
                 className="sidebar__pills" to="/history">
                     <div><AiFillClockCircle /></div> 
                     <div>Watch Later</div>
-                </NavLink>
+                </NavLink> */}
                 <NavLink activeStyle={{
                     backgroundColor: `var(--secondary-color)`,
                     color: `white`

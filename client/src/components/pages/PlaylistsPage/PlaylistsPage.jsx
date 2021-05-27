@@ -9,6 +9,7 @@ function PlaylistsPage() {
     const {authState} = useAuth();
     const {isUserLoggedIn} = authState;
     const { videoState} = useVideo();
+    console.log(videoState);
     return (
         (isUserLoggedIn) ? 
         <div>
@@ -21,8 +22,8 @@ function PlaylistsPage() {
                         return <div>
                         <h1> {playlist.name}</h1>
                         <VideoGroup>
-                            {playlist.videos.map((video) => {
-                                return <Video kind="small-video" name={video.creator_id.name} thumbnail={video.creator_id.thumbnail} redirect={`/watch/${video._id}`} />
+                            {playlist.videos.map(({videoId}) => {
+                                return <Video kind="small-video" name={videoId.name} thumbnail={videoId.thumbnail} redirect={`/watch/${videoId._id}`} />
                             })}
                         </VideoGroup>
                         </div>
