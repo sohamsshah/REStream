@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import "./Navbar.css"
 import Button from "../../atoms/Button/Button"
 import Search from "../../molecules/Search/Search"
@@ -8,11 +8,8 @@ import {Link} from"react-router-dom"
 
 function Navbar() {
     const {authState, dispatch} = useAuth();
+    const [toggle, setToggle] = useState(true);
     const {isUserLoggedIn} = authState;
-
-    // function handleLogin(){
-    //     dispatch({type:"LOGIN", payload:{userId:"60a13ddc7e25f80154b8ec80"}})
-    // }
 
     function handleLogout(){
         dispatch({type:"LOGOUT", payload:{userId:authState.currentUserId}})
