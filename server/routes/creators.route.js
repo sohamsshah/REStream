@@ -17,7 +17,6 @@ router.get("/:id", async (req, res) => {
   console.log(id)
   let creator = await Creator.findById(id);
   let videos = await Video.find({creator_id: id});
-  console.log(videos, creator);
   if (creator && videos) {
     return res.status(200).json({ videos, creator, success: true, message: "Successful" })
   } res.status(404).json({ success: false, message: "The creator ID sent has no creator associated with it. Check and try again" })
