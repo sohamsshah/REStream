@@ -4,6 +4,7 @@ import {useAuth} from "./../../../context/auth-context"
 import ContentHeading from '../../molecules/ContentHeading/ContentHeading'
 import VideoGroup from "./../../organisms/VideoGroup/VideoGroup"
 import Video from "./../../molecules/Video/Video"
+import "./LikedVideosPage.css"
 
 function LikedVideosPage() {
     const {authState} = useAuth();
@@ -11,7 +12,7 @@ function LikedVideosPage() {
     const { videoState} = useVideo();
         return (
         (isUserLoggedIn) ? 
-        <div>
+        <div className="liked-videos">
            <div className="liked">
             <ContentHeading fontSize="2rem">Liked Videos</ContentHeading>
             <div>

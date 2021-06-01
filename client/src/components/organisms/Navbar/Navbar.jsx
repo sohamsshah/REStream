@@ -11,7 +11,7 @@ function Navbar() {
     const [toggle, setToggle] = useState(true);
     const {isUserLoggedIn} = authState;
 
-    function handleLogout(){
+function handleLogout(){
         dispatch({type:"LOGOUT", payload:{userId:authState.currentUserId}})
     }
     return (
@@ -26,7 +26,7 @@ function Navbar() {
                     <NavLink to="/categories" activeStyle={{
                             color: `var(--secondary-color)`,
                             fontWeight: 600,
-                            borderBottom: `solid 3px var(--secondary-color)`
+                            
                     }}>
                         Categories    
                     </NavLink>
@@ -35,7 +35,7 @@ function Navbar() {
                     <NavLink to="/instructors" activeStyle={{
                             fontWeight: 600,
                             color: `var(--secondary-color)`,
-                            borderBottom: `solid 3px var(--secondary-color)`
+                            
                         }}>
                             Instructors
                         </NavLink>
@@ -44,7 +44,7 @@ function Navbar() {
                         <NavLink to="/channels" activeStyle={{
                             fontWeight: 600,
                             color: `var(--secondary-color)`,
-                            borderBottom: `solid 3px var(--secondary-color)`
+                            
                         }}>
                             Channels
                         </NavLink>

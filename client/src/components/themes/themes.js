@@ -4,17 +4,19 @@ theme.borderRadius = '2px';
 theme.borderRadiusPill = '10px'
 
 theme.color = {};
-theme.color.primaryColor = '#ff8000'
+theme.color.primaryColor = 'var(--primary-color)'
 theme.color.primaryColorLight = 'rgba(100, 65, 165,0.2)'
 
-theme.color.secondaryColor = '#6441a5'
-theme.color.secondaryColorDark = 'rgb(52, 34, 87)'
+theme.color.secondaryColor = 'var(--secondary-color)'
+theme.color.secondaryColorDark = 'var(--secondary-color-dark)'
+theme.color.secondaryColorLight = 'var(--secondary-color-light)'
 
-theme.color.lightColor = '#fff'
-theme.color.darkColor = '#262626'
+theme.color.lightColor = 'var(--light-color)'
+theme.color.darkColor = 'var(--dark-color)'
 
-theme.color.backgroundColor = "#F7F7F8";
-theme.color.backgroundColorDark = "#EFEFF1";
+theme.color.backgroundColorDark = "var(--background-color-dark)";
+theme.color.backgroundColorMediumDark = "var(--background-color-medium-dark)";
+theme.color.backgroundColorLightDark = "var(--background-color-light-dark)";
 
 theme.fontSize = {};
 theme.fontSize.xxxxl = '4rem';

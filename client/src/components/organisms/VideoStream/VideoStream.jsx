@@ -133,7 +133,7 @@ function VideoStream() {
                 </div>
                 
             </div>  
-        </div>) : <Spinner />
+        </div>) : <div className="video-stream"><Spinner /></div>
     )
 }
 

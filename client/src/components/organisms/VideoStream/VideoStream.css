@@ -1,5 +1,6 @@
 .video-stream{
     width:70%;
+    min-height: 100vh;
 }
 .video-stream__info{
     display: flex;
