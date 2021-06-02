@@ -41,8 +41,7 @@ function App() {
         <Route path="/history" exact component={() => <VideoPage Content={HistoryPage} />} />
         
         <Route path="/auth/login" exact component={() => <LoginPage />} />
-        <Route path="/auth/signup" exact component={() => <VideoPage Content={SignupPage} />} />
-        
+        <Route path="/auth/signup" exact component={() => <SignupPage />} /> 
       </Switch>
     </Router>
       

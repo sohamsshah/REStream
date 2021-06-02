@@ -108,7 +108,6 @@ const Button = (props) => (
 Button.defaultProps = {
     kind: 'filled',
     size: 'medium',
-    disabled: true,
 };
 
 Button.propTypes = {

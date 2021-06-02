@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const followCreator = async (currentUserId, creator, dispatch) => {
-
+  console.log("clicked");
     try {
     
         const response = await axios.post(
@@ -14,7 +14,7 @@ export const followCreator = async (currentUserId, creator, dispatch) => {
             dispatch({type : "FOLLOW", payload:{creator:followedCreator}})
         }
       } catch (error) {
-       
+        console.log(error);
       } finally {
         
       }
