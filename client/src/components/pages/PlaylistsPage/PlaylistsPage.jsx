@@ -5,6 +5,7 @@ import ContentHeading from '../../molecules/ContentHeading/ContentHeading'
 import VideoGroup from "./../../organisms/VideoGroup/VideoGroup"
 import Video from "./../../molecules/Video/Video"
 import "./PlaylistsPage.css"
+import {Link} from "react-router-dom"
 
 function PlaylistsPage() {
     const {authState} = useAuth();
@@ -17,6 +18,9 @@ function PlaylistsPage() {
              <div className="playlists-page">
 
             <ContentHeading fontSize="2rem">Your Playlists</ContentHeading>
+            {videoState.likedVideos.length === 0 ? <div className="liked-videos">
+            Seems you haven't added any Videos to Playlists yet. Add some <span className="link-text"><Link to="/">videos</Link></span> to get started!
+            </div> : 
             <div className="playlists-page__list">
                 {
                     videoState.playlists.map((playlist) => {
@@ -30,7 +34,7 @@ function PlaylistsPage() {
                         </div>
                     })
                 }
-            </div>
+            </div>}
             </div>
         </div>: <div className="playlists-page"></div>)
 }

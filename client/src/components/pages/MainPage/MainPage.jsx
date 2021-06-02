@@ -4,7 +4,7 @@ import MainLayout from "./../../templates/MainLayout/MainLayout"
 
 function MainPage({Content}) {
     return (
-        <div>
+        <div className="main-page">
            <Navbar />
            <MainLayout Content={Content}/> 
         </div>

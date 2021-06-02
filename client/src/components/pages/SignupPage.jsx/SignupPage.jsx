@@ -3,7 +3,7 @@ import {signUpUser} from "./../../../utils/api-calls/auth"
 import {useAuth} from "./../../../context/auth-context"
 import { Formik } from "formik";
 import { ToastContainer, toast } from 'react-toastify';
-import {useHistory} from 'react-router';
+import {useHistory, Link} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import "./SignupPage.css"
 import Typography from '../../atoms/Typography/Typography';
@@ -191,6 +191,9 @@ function SignupPage() {
                 >
                   Sign up
                 </Button>
+                <div className="bottom-text">
+                    Already have an account? <Link to="/auth/signup">Login </Link> here
+                </div>
                 </div>
               </form>
               </div>

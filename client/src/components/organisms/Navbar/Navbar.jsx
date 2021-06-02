@@ -13,7 +13,7 @@ function Navbar() {
 
 
     function handleLogout(){
-        dispatch({type:"LOGOUT", payload:{userId:authState.currentUserId}})
+        dispatch({type:"LOGOUT", payload:{userId:authState.currentUser._id}})
     }
     return (
         <nav className="nav-container">

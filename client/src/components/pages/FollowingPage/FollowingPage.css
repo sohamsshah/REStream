@@ -12,3 +12,7 @@
 .following__heading{
     padding-bottom:1rem;
 }
+
+.link-text a{
+    color: var(--primary-color);
+}

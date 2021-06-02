@@ -3,11 +3,12 @@ import {loginUser} from "./../../../utils/api-calls/auth"
 import {useAuth} from "./../../../context/auth-context"
 import { Formik } from "formik";
 import { ToastContainer, toast } from 'react-toastify';
-import {useHistory} from 'react-router';
+import {useHistory, Link} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import "./LoginPage.css"
 import Typography from '../../atoms/Typography/Typography';
 import Button from '../../atoms/Button/Button';
+
 
 function LoginPage() {
   let history = useHistory();
@@ -49,7 +50,7 @@ function LoginPage() {
           history.push('/');
         }
         else{
-          error("Something went wrong");
+          error("Wrong username or password. Please try again");
         }
         setLoading(false);
     };
@@ -134,6 +135,9 @@ function LoginPage() {
                 >
                   Log In 
                 </Button>
+                <div className="bottom-text">
+                    Don't have an account? <Link to="/auth/signup">Sign up</Link> here
+                </div>
                 </div>
               </form>
               </div>

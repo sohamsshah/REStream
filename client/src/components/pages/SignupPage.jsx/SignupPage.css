@@ -66,6 +66,14 @@
     margin:1rem 2rem;
 }
 
+.bottom-text{
+    padding-top:1rem;
+}
+
+.bottom-text a{
+    color: var(--primary-color);
+}
+
 
 @media only screen and (min-width: 1080px) {
     .form__input input{

@@ -8,17 +8,17 @@ import Button from "./../../atoms/Button/Button"
 
 function PlaylistModal({video, showModal, setShowModal}) {
     const {authState} = useAuth();
-    const {currentUserId} = authState;
+    const {currentUser} = authState;
     const { videoState, dispatch } = useVideo();
     const [modalInput, setModalInput] = useState("")
     
     async function checkBoxHandler(e, item) {
-        if(currentUserId !== null){
+        if(currentUser !== null){
             if (searchPlaylist(item.videos, video._id) === true) {
-                await removeFromPlaylist(currentUserId, item._id, video, dispatch);
+                await removeFromPlaylist(currentUser._id, item._id, video, dispatch);
                 
             } else {
-                await addToPlaylist(currentUserId, item._id, video, dispatch);
+                await addToPlaylist(currentUser._id, item._id, video, dispatch);
             }
         }
 
@@ -28,7 +28,7 @@ function PlaylistModal({video, showModal, setShowModal}) {
         e.preventDefault();
         if (modalInput.trim().length === 0)
             return
-        addNewPlaylistToDB(currentUserId, modalInput, dispatch);        
+        addNewPlaylistToDB(currentUser._id, modalInput, dispatch);        
         
         setModalInput("");
     }
@@ -46,7 +46,7 @@ function PlaylistModal({video, showModal, setShowModal}) {
                 </div>
                 <div className="modal__options">
                     {
-                        (currentUserId)?(videoState.playlists.map((item, index) => {
+                        (currentUser)?(videoState.playlists.map((item, index) => {
                             
 
                             return (
@@ -58,7 +58,7 @@ function PlaylistModal({video, showModal, setShowModal}) {
                                             onChange={(e) => checkBoxHandler(e, item)} type="checkbox"
                                             name="checkbox"
                                             id={`checkBox${index}`}
-                                            checked = {(currentUserId)?(searchPlaylist(item.videos, video._id)):false}
+                                            checked = {(currentUser._id)?(searchPlaylist(item.videos, video._id)):false}
                                         />
                                         {item.name}
                                     </label>

@@ -11,11 +11,11 @@ import {Link} from "react-router-dom"
 
 function FollowingPage() {
     const {authState} = useAuth();
-    const {currentUserId} = authState;
+    const {isUserLoggedIn} = authState;
     const { videoState} = useVideo();
     console.log(videoState);
         return (
-        (currentUserId !== null) ?
+        (isUserLoggedIn) ?
             <div className="following">
             <ContentHeading fontSize="2rem">Following</ContentHeading>
             <div className="following__channels">
@@ -33,13 +33,13 @@ function FollowingPage() {
                         return ""
                     })}
                 </CardGroup> : <div>
-                    Seems you haven't followed any Channels yet. Follow some <Link to="/channels">Channels</Link> to get started!
+                    Seems you haven't followed any Channels yet. Follow some <span className="link-text"><Link to="/channels">Channels</Link></span> to get started!
                 </div>
                 }
             </div>
             <div className="following__creators">
             <Typography className="following__heading" fontSize="ml" fontWeight="semibold">
-                Creators You Follow
+                Instructors You Follow
             </Typography>
             {(videoState.following.filter(({creatorId}) => !creatorId.isChannel).length) ? 
                 <CardGroup>
@@ -52,7 +52,7 @@ function FollowingPage() {
                         return ""
                     })}
                 </CardGroup> : <div>
-                    Seems you haven't followed any Channels yet. Follow some <Link to="/channels">Channels</Link> to get started!
+                    Seems you haven't followed any Instructors yet. Follow some <span className="link-text"><Link to="/instructors">Instructors</Link></span> to get started!
                 </div>
                 }
             </div>

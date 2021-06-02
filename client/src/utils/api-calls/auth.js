@@ -12,8 +12,8 @@ export const loginUser = async (username, password, dispatch) => {
         );
         if (response.status === 200) {
             
-            console.log(response);
-            dispatch({type:"LOGIN", payload:{userId:response.data.user._id}});     
+            console.log({response});
+            dispatch({type:"LOGIN", payload:{user:response.data.user}});     
         }
         return {success:true}
         

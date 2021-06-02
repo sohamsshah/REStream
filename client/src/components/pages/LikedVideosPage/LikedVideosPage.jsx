@@ -5,6 +5,7 @@ import ContentHeading from '../../molecules/ContentHeading/ContentHeading'
 import VideoGroup from "./../../organisms/VideoGroup/VideoGroup"
 import Video from "./../../molecules/Video/Video"
 import "./LikedVideosPage.css"
+import {Link} from "react-router-dom"
 
 function LikedVideosPage() {
     const {authState} = useAuth();
@@ -16,17 +17,24 @@ function LikedVideosPage() {
            <div className="liked">
             <ContentHeading fontSize="2rem">Liked Videos</ContentHeading>
             <div>
-            <VideoGroup> 
+            {videoState.likedVideos.length === 0 ? 
+            <div className="liked-videos">
+            Seems you haven't liked any Videos yet. Like some <span className="link-text"><Link to="/">videos</Link></span> to get started!
+            </div> :  <VideoGroup> 
 
             {videoState.likedVideos.map(({videoId}) => 
             <div>
                 <Video name={videoId.name} thumbnail={videoId.thumbnail} kind="small-video" redirect={`/watch/${videoId._id}`}/>
             </div>)}
             </VideoGroup>
-                
+
+            }
+                           
             </div>
             </div>
-        </div> : <div className="liked-videos"></div>
+        </div> : <div className="liked-videos">
+        
+        </div>
     )
 }
 

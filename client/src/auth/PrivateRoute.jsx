@@ -3,7 +3,9 @@ import {useAuth} from "./../context/auth-context"
 import React from 'react'
 
 function PrivateRoute({ path, ...props }) {
-    const { isUserLoggedIn } = useAuth();
+    const {authState: {isUserLoggedIn}} = useAuth();
+    // console.log(item);
+    // const isUserLoggedIn = false;
     return isUserLoggedIn ? (
       <Route {...props} path={path} />
     ) : (
