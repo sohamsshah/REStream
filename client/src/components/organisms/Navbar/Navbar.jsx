@@ -11,7 +11,8 @@ function Navbar() {
     const [toggle, setToggle] = useState(true);
     const {isUserLoggedIn} = authState;
 
-function handleLogout(){
+
+    function handleLogout(){
         dispatch({type:"LOGOUT", payload:{userId:authState.currentUserId}})
     }
     return (
@@ -19,14 +20,12 @@ function handleLogout(){
             <div className="nav__left">
                 <div className="nav nav__brand">
                     <NavLink to="/">REStream</NavLink>
-                    
                 </div>
                 <div className="nav nav__pills">
                     <div className="nav nav__link">
                     <NavLink to="/categories" activeStyle={{
                             color: `var(--secondary-color)`,
-                            fontWeight: 600,
-                            
+                            fontWeight: 600,     
                     }}>
                         Categories    
                     </NavLink>
@@ -63,8 +62,121 @@ function handleLogout(){
                     <Link to="/auth/signup"><Button kind="filled">Signup</Button></Link>
                     </div>
                 )}
-                
-            </div>            
+            </div> 
+        <div className="nav-mobile">
+            <div className="nav__brand">
+                    <NavLink to="/">REStream</NavLink>
+            </div>
+            <div
+                onClick={() => setToggle(!toggle)}
+                className={toggle ? "hamburger" : "hamburger active"}
+            >
+                <span className="bar"></span>
+                <span className="bar"></span>
+                <span className="bar"></span>
+            </div> 
+          </div>
+          {(!toggle) ?
+          <div className={"nav-mobile__pills"}>
+                    <div className="general__pills">
+                    <div className="nav nav__link">
+                    <NavLink to="/categories" activeStyle={{
+                            color: `var(--secondary-color)`,
+                            fontWeight: 600,     
+                    }}  >
+                        Categories    
+                    </NavLink>
+                    </div>
+                    <div className="nav nav__link">
+                    <NavLink to="/instructors" activeStyle={{
+                            fontWeight: 600,
+                            color: `var(--secondary-color)`,
+                            
+                        }}>
+                            Instructors
+                        </NavLink>
+                    </div>
+                    <div className="nav nav__link">
+                        <NavLink to="/channels" activeStyle={{
+                            fontWeight: 600,
+                            color: `var(--secondary-color)`,
+                            
+                        }}>
+                            Channels
+                        </NavLink>
+                    </div>
+                    </div>
+                    <div className="user-details__pills">
+                    <div className="nav nav__link">
+                    <NavLink to="/following" activeStyle={{
+                            color: `var(--secondary-color)`,
+                            fontWeight: 600,     
+                    }}>
+                        Following  
+                    </NavLink>
+                    </div>
+                    <div className="nav nav__link">
+                    <NavLink to="/liked" activeStyle={{
+                            fontWeight: 600,
+                            color: `var(--secondary-color)`,
+                            
+                        }}>
+                            Liked
+                        </NavLink>
+                    </div>
+                    <div className="nav nav__link">
+                    <NavLink to="/playlists" activeStyle={{
+                            fontWeight: 600,
+                            color: `var(--secondary-color)`,
+                            
+                        }}>
+                            Playlists
+                        </NavLink>
+                    </div>
+                    <div className="nav nav__link">
+                        <NavLink to="/history" activeStyle={{
+                            fontWeight: 600,
+                            color: `var(--secondary-color)`,
+                            
+                        }}>
+                            History
+                        </NavLink>
+                    </div>
+                    </div>
+                    {(isUserLoggedIn) ?
+                    <div className="auth__pills">
+                    <div className="nav nav__link">
+                    <NavLink to="/categories" activeStyle={{
+                            color: `var(--secondary-color)`,
+                            fontWeight: 600,     
+                    }} onClick={() => setToggle(false)}>
+                        Log out  
+                    </NavLink>
+                    </div>
+                    </div> : <div className="auth__pills">
+                    <div className="nav nav__link">
+                    <NavLink to="/auth/login" activeStyle={{
+                            color: `var(--secondary-color)`,
+                            fontWeight: 600,     
+                    }}>
+                        Login   
+                    </NavLink>
+                    </div>
+                    <div className="nav nav__link">
+                    <NavLink to="/auth/signup" activeStyle={{
+                            fontWeight: 600,
+                            color: `var(--secondary-color)`,
+                            
+                        }}>
+                            Signup
+                        </NavLink>
+                    </div>
+                    
+                    
+                    </div>}
+                </div>:""}
+         
+       
         </nav>
     )
 }
