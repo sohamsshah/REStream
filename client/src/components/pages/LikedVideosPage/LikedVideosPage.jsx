@@ -26,7 +26,7 @@ function LikedVideosPage() {
                 
             </div>
             </div>
-        </div> : ""
+        </div> : <div className="liked-videos"></div>
     )
 }
 

@@ -1,0 +1,77 @@
+.login{
+    background-color: var(--background-color-dark);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login__content{
+    margin-top: -100px;
+    padding: 2rem 0rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-wrapper{
+    background-color: var(--background-color-light-dark);
+    padding: 2rem 0rem;
+    border-radius: 6px;
+    
+}
+
+.heading{
+    padding:0.5rem 0;
+    margin:0 2rem;
+}
+
+.form__brand{
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 3rem;
+    padding:1rem 0;
+    text-align: center;
+    font-weight: bolder;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.form-row{
+    padding:0.5rem 0;
+    margin:0 2rem;
+    
+}
+
+.form__label{
+    font-size: 0.9rem;
+    padding:0.2rem 0;
+    
+}
+
+.form__input input{
+    width:15rem;
+    padding:5px;
+    font-size: 1.1rem;
+    border-radius:6px;
+}
+
+.error{
+    font-size: 0.8rem;
+    padding:0.2rem 0; 
+    color: var(--secondary-color-light);
+}
+
+.form__submit{
+    margin:1rem 2rem;
+}
+
+
+@media only screen and (min-width: 1080px) {
+    .form__input input{
+        width:20rem;
+    }
+    .login__content{
+        padding:2rem;
+    }
+  }

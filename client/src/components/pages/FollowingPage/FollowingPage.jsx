@@ -57,7 +57,9 @@ function FollowingPage() {
                 }
             </div>
             </div>: 
-            <div></div>
+            <div className="following">
+                Please Login
+            </div>
         
     )
 }

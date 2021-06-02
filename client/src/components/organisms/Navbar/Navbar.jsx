@@ -58,8 +58,8 @@ function Navbar() {
             <div className="nav-CTA">
                 {(isUserLoggedIn)?(<Button kind="filled" onClick={handleLogout}>Logout</Button>):
                 (   <div>
-                    <Link to="/auth/login"><Button kind="filled">Login</Button></Link>
-                    <Link to="/auth/signup"><Button kind="filled">Signup</Button></Link>
+                    <Button kind="filled"><Link to="/auth/login">Login</Link></Button>
+                    <Button kind="filled"><Link to="/auth/signup">Signup</Link></Button>
                     </div>
                 )}
             </div> 
@@ -146,12 +146,9 @@ function Navbar() {
                     {(isUserLoggedIn) ?
                     <div className="auth__pills">
                     <div className="nav nav__link">
-                    <NavLink to="/categories" activeStyle={{
-                            color: `var(--secondary-color)`,
-                            fontWeight: 600,     
-                    }} onClick={() => setToggle(false)}>
+                    <div className="logout" onClick={handleLogout}>
                         Log out  
-                    </NavLink>
+                    </div>
                     </div>
                     </div> : <div className="auth__pills">
                     <div className="nav nav__link">

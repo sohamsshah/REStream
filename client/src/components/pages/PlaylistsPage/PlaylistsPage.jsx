@@ -4,6 +4,7 @@ import {useAuth} from "./../../../context/auth-context"
 import ContentHeading from '../../molecules/ContentHeading/ContentHeading'
 import VideoGroup from "./../../organisms/VideoGroup/VideoGroup"
 import Video from "./../../molecules/Video/Video"
+import "./PlaylistsPage.css"
 
 function PlaylistsPage() {
     const {authState} = useAuth();
@@ -31,7 +32,7 @@ function PlaylistsPage() {
                 }
             </div>
             </div>
-        </div>: "")
+        </div>: <div className="playlists-page"></div>)
 }
 
 export default PlaylistsPage

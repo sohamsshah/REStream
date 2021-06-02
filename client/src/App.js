@@ -40,7 +40,7 @@ function App() {
         <Route path="/playlists" exact component={() => <VideoPage Content={PlaylistsPage} />} />
         <Route path="/history" exact component={() => <VideoPage Content={HistoryPage} />} />
         
-        <Route path="/auth/login" exact component={() => <VideoPage Content={LoginPage} />} />
+        <Route path="/auth/login" exact component={() => <LoginPage />} />
         <Route path="/auth/signup" exact component={() => <VideoPage Content={SignupPage} />} />
         
       </Switch>

@@ -88,7 +88,7 @@ function VideoStream() {
         
         (video !== null && creatorDetails !== null) ? 
         (<div className="video-stream">
-            {/* <Spinner /> */}
+            
             <div className="video-embed">
                 <VideoEmbed width="100%" height="560" id={id} />
             </div>

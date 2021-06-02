@@ -5,6 +5,9 @@ import { Formik } from "formik";
 import { ToastContainer, toast } from 'react-toastify';
 import {useHistory} from 'react-router';
 import 'react-toastify/dist/ReactToastify.css';
+import "./LoginPage.css"
+import Typography from '../../atoms/Typography/Typography';
+import Button from '../../atoms/Button/Button';
 
 function LoginPage() {
   let history = useHistory();
@@ -70,11 +73,20 @@ function LoginPage() {
             dirty
           } = formik;
           return (
-            <div className="container">
-              <h1>Sign in to continue</h1>
+            <div className="login">
+              
+              <div className="login__content">
+              <div className="form__brand">
+                    REStream
+                </div>
+              <div className="form-wrapper">
+                <Typography className="heading" fontSize="xl" fontWeight="semibold"> Log in </Typography>
               <form onSubmit={handleSubmit}>
                 <div className="form-row">
+                  <div className="form__label">
                   <label>Username</label>
+                  </div>
+                  <div className="form__input">
                   <input
                     
                     name="username"
@@ -86,13 +98,17 @@ function LoginPage() {
                       errors.username && touched.username ? "input-error" : null
                     }
                   />
+                  </div>
                   {errors.username && touched.username && (
-                    <span className="error">{errors.username}</span>
+                    <div className="error">{errors.username}</div>
                   )}
                 </div>
   
                 <div className="form-row">
+                  <div className="form__label">
                   <label htmlFor="password">Password</label>
+                  </div>
+                  <div className="form__input">
                   <input
                     type="password"
                     name="password"
@@ -104,19 +120,24 @@ function LoginPage() {
                       errors.password && touched.password ? "input-error" : null
                     }
                   />
+                  </div>
+                
                   {errors.password && touched.password && (
-                    <span className="error">{errors.password}</span>
+                    <div className="error">{errors.password}</div>
                   )}
                 </div>
-  
-                <button
+                <div className="form__submit">
+                <Button
                   type="submit"
                   className={!(dirty && isValid) ? "disabled-btn" : ""}
                   disabled={!(dirty && isValid)}
                 >
-                  Sign In 
-                </button>
+                  Log In 
+                </Button>
+                </div>
               </form>
+              </div>
+              </div>
             </div>
           );
         }}
