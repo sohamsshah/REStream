@@ -13,7 +13,7 @@ import Category from "./components/organisms/Category/Category"
 import Creator from "./components/organisms/Creator/Creator"
 import VideoPage from "./components/pages/VideoPage/VideoPage"
 import VideoStream from "./components/organisms/VideoStream/VideoStream"
-
+import PrivateRoute from "./auth/PrivateRoute"
 import Channels from "./components/organisms/Channels/Channels"
 import FollowingPage from './components/pages/FollowingPage/FollowingPage';
 import LikedVideosPage from './components/pages/LikedVideosPage/LikedVideosPage';
@@ -35,11 +35,10 @@ function App() {
         <Route path="/instructors/:id" exact component={() => <MainPage Content={() => <Creator kind="creators" />} />} />
         <Route path="/channels/:id" exact component={() => <MainPage Content={() => <Creator kind="channels" />} />} />
         <Route path="/watch/:id" exact component={() => <VideoPage Content={VideoStream} />} />
-        <Route path="/following" exact component={() => <VideoPage Content={FollowingPage} />} />
-        <Route path="/liked" exact component={() => <VideoPage Content={LikedVideosPage} />} />
-        <Route path="/playlists" exact component={() => <VideoPage Content={PlaylistsPage} />} />
-        <Route path="/history" exact component={() => <VideoPage Content={HistoryPage} />} />
-        
+        <PrivateRoute path="/following" exact component={() => <VideoPage Content={FollowingPage} />} />
+        <PrivateRoute path="/liked" exact component={() => <VideoPage Content={LikedVideosPage} />} />
+        <PrivateRoute path="/playlists" exact component={() => <VideoPage Content={PlaylistsPage} />} />
+        <PrivateRoute path="/history" exact component={() => <VideoPage Content={HistoryPage} />} />
         <Route path="/auth/login" exact component={() => <LoginPage />} />
         <Route path="/auth/signup" exact component={() => <SignupPage />} /> 
       </Switch>

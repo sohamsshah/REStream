@@ -40,8 +40,9 @@ export const signUpUser = async (email, username, password, dispatch) => {
         if (response.status === 201) {
             dispatch({type:"LOGIN", payload:{userId:response.data.user._id}})
         }
+        return {success:true}
       } catch (error) {
-       
+        return {success:false}
       } finally {
         
       }

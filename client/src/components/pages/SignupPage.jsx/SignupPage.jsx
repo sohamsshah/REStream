@@ -30,14 +30,15 @@ import "./SignupPage.css"
 import Typography from '../../atoms/Typography/Typography';
 import Button from '../../atoms/Button/Button';
 
-function LoginPage() {
+function SignupPage() {
   let history = useHistory();
   const [loading, setLoading] = useState(false)
     const {authState, dispatch} = useAuth();
     const initialValues = {
       username: "",
       password: "",
-      email: ""
+      email: "",
+      confirmPassword: "",
     };
     
     const validate = (values) => {
@@ -52,13 +53,19 @@ function LoginPage() {
       if (!values.email) {
         errors.username = "email is required";
       } else if (!emailRegex.test(values.email)) {
-        errors.username = "Invalid Email ID";
+        errors.email = "Invalid Email ID";
       }
     
       if (!values.password) {
         errors.password = "Password is required";
       } else if (values.password.length < 4) {
         errors.password = "Password too short";
+      }
+
+      if(!values.confirmPassword){
+          errors.confirmPassword = "Confirm Password is required"
+      } else if (values.password !== values.confirmPassword ) {
+        errors.confirmPassword = "Passwords doesn't match";
       }
     
       return errors;
@@ -107,7 +114,7 @@ function LoginPage() {
                     REStream
                 </div>
               <div className="form-wrapper">
-                <Typography className="heading" fontSize="xl" fontWeight="semibold"> Log in </Typography>
+                <Typography className="heading" fontSize="xl" fontWeight="semibold"> Sign Up </Typography>
               <form onSubmit={handleSubmit}>
               <div className="form-row">
                   <div className="form__label">
@@ -175,13 +182,35 @@ function LoginPage() {
                     <div className="error">{errors.password}</div>
                   )}
                 </div>
+                <div className="form-row">
+                  <div className="form__label">
+                  <label htmlFor="confirm-password">Confirm Password</label>
+                  </div>
+                  <div className="form__input">
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    value={values.confirmPassword}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={
+                      errors.confirmPassword && touched.confirmPassword ? "input-error" : null
+                    }
+                  />
+                  </div>
+                
+                  {errors.confirmPassword && touched.confirmPassword && (
+                    <div className="error">{errors.confirmPassword}</div>
+                  )}
+                </div>
                 <div className="form__submit">
                 <Button
                   type="submit"
                   className={!(dirty && isValid) ? "disabled-btn" : ""}
                   disabled={!(dirty && isValid)}
                 >
-                  Log In 
+                  Sign up
                 </Button>
                 </div>
               </form>
@@ -196,4 +225,4 @@ function LoginPage() {
     )
 }
 
-export default LoginPage
+export default SignupPage
