@@ -11,9 +11,9 @@ export const addToHistory = async (currentUserId, video, dispatch) => {
         if (response.status === 201) {
             console.log("SUCCESS");
             const {addedVideo} = response.data;
-            const {videoId} = addedVideo;
             
-            dispatch({type:"ADD_TO_HISTORY", payload: {video: videoId}});
+            
+            dispatch({type:"ADD_TO_HISTORY", payload: {video: addedVideo}});
 
         }
       } catch (error) {
