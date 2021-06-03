@@ -58,7 +58,7 @@ function Creator({kind}) {
         (creatorDetails !== null && creatorVideos) ?
         (<div>
         {
-            (creatorDetails !== null) ? <CreatorDetails name={creatorDetails.name} description={creatorDetails.description} thumbnail={creatorDetails.thumbnail} handleFollow={handleFollow} isFollowing={(currentUser !== null) ? searchFollowings(videoState,creatorDetails._id): false} currentUserId={currentUser._id}/>: creatorDetails
+            (creatorDetails !== null) ? <CreatorDetails name={creatorDetails.name} description={creatorDetails.description} thumbnail={creatorDetails.thumbnail} handleFollow={handleFollow} isFollowing={(currentUser !== null) ? searchFollowings(videoState,creatorDetails._id): false} currentUserId={(currentUser !== null) ? currentUser._id : null} />: creatorDetails
         }
         
         <div>
