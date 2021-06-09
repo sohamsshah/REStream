@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {useVideo} from "./../../../context/video-context"
 import {useAuth} from "./../../../context/auth-context"
 import ContentHeading from '../../molecules/ContentHeading/ContentHeading'
@@ -9,6 +9,7 @@ function HistoryPage() {
     const {authState} = useAuth();
     const {isUserLoggedIn} = authState;
     const { videoState} = useVideo();
+    useEffect(() => { window.scrollTo(0, 0); }, []);
         return (
         (isUserLoggedIn) ? 
         <div>

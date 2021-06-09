@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import "./FollowingPage.css"
 import {useVideo} from "./../../../context/video-context"
 import {useAuth} from "./../../../context/auth-context"
@@ -13,7 +13,7 @@ function FollowingPage() {
     const {authState} = useAuth();
     const {isUserLoggedIn} = authState;
     const { videoState} = useVideo();
-    console.log(videoState);
+    useEffect(() => { window.scrollTo(0, 0); }, []);
         return (
         (isUserLoggedIn) ?
             <div className="following">
