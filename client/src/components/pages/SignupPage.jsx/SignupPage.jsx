@@ -192,7 +192,7 @@ function SignupPage() {
                   Sign up
                 </Button>
                 <div className="bottom-text">
-                    Already have an account? <Link to="/auth/signup">Login </Link> here
+                    Already have an account? <Link to="/auth/login">Login </Link> here
                 </div>
                 </div>
               </form>
