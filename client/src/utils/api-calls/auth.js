@@ -3,7 +3,6 @@ import axios from "axios";
 export const loginUser = async (username, password, dispatch) => {
 
     try {
-    
         const response = await axios.post(
           `https://apirestream.sohamsshah.repl.co/auth/login`,
           {
@@ -12,12 +11,16 @@ export const loginUser = async (username, password, dispatch) => {
           }
         );
         if (response.status === 200) {
-            dispatch({type:"LOGIN", payload:{userId:response.data.user._id}})
+            
+            dispatch({type:"LOGIN", payload:{user:response.data.user}});     
         }
-      } catch (error) {
-       
-      } finally {
+        return {success:true}
         
+      } catch (error) {
+        return {success:false}
+          
+      } finally {
+          
       }
 }
 
@@ -36,8 +39,9 @@ export const signUpUser = async (email, username, password, dispatch) => {
         if (response.status === 201) {
             dispatch({type:"LOGIN", payload:{userId:response.data.user._id}})
         }
+        return {success:true}
       } catch (error) {
-       
+        return {success:false}
       } finally {
         
       }

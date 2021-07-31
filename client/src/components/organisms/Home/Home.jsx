@@ -1,6 +1,7 @@
 import React from 'react'
 import ContentHeading from "./../../molecules/ContentHeading/ContentHeading"
 import Typography from "./../../atoms/Typography/Typography"
+import {useAuth} from "./../../../context/auth-context"
 import "./Home.css"
 import {Link} from "react-router-dom"
 import {data} from "./../../../data/data"
@@ -11,7 +12,8 @@ import VideoGroup from "./../VideoGroup/VideoGroup"
 import {searchCreator} from "./../../../utils/category/category"
 
 function Home() {
-    
+    const {authState} = useAuth();
+    console.log(authState);
     return (
         <div className="home">
             <div className="home__heading">            

@@ -2,10 +2,11 @@
 .sidebar{
     position: fixed;
     width:15rem;
-    border-right: solid 1px #eee;
+    border-right: solid 1px var(--background-color-medium-dark);
     height:100%;
     overflow-y: scroll hidden;
-    background-color: var(--background-color-dark);
+    background-color: var(--background-color-light-dark);
+    display:none;
    
 }
 
@@ -33,4 +34,17 @@
 .sidebar__pills:hover{
   background-color: var(--secondary-color);
   color: white;
+}
+
+hr{
+  border-top: 1px solid var(--background-color-medium-dark);
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+
+@media only screen and (min-width: 1080px) {
+  .sidebar{
+    display:block;
+  }
 }

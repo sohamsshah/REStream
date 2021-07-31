@@ -13,19 +13,19 @@ export function VideoProvider({ children }) {
           (async () => {
             try {
               const response = await axios.get(
-                `https://apirestream.sohamsshah.repl.co/userDetails/${authState.currentUserId}`
+                `https://apirestream.sohamsshah.repl.co/userDetails/${authState.currentUser._id}`
               );
               console.log({ response });
               const data = response.data.user;
               dispatch({ type: "ADD_USER_DATA", payload: data });
             } catch (error) {
-              // dispatch({ type: "STATUS", payload: "Sorry, try again later.." });
+              
             } finally {
-              // dispatch({ type: "STATUS", payload: "" });
+             
             }
           })();
         }
-      }, [authState.isUserLoggedIn, authState.currentUserId]);
+      }, [authState.isUserLoggedIn, authState.currentUser]);
 
     
 

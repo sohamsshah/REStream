@@ -15,15 +15,15 @@ const styles = {
             return "12rem"
         }
         if(props.kind === 'small-video'){
-            return "8rem"
+            return "10rem"
         }
     },
     width(props){
         if(props.kind === 'small-card'){
-            return "8rem"
+            return "10rem"
         }
         if(props.kind === 'small-video'){
-            return "15rem"
+            return "18rem"
         }
         return "100%"
     }

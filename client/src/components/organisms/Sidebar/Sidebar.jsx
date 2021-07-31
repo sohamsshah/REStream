@@ -72,15 +72,7 @@ function Sidebar() {
                     <div><RiPlayList2Fill /></div> 
                     <div>Your Playlists</div>
                 </NavLink>
-
-                <NavLink activeStyle={{
-                    backgroundColor: `var(--secondary-color)`,
-                    color: `white`
-                }}
-                className="sidebar__pills" to="/history">
-                    <div><AiFillClockCircle /></div> 
-                    <div>Watch Later</div>
-                </NavLink>
+                
                 <NavLink activeStyle={{
                     backgroundColor: `var(--secondary-color)`,
                     color: `white`

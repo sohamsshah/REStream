@@ -74,8 +74,9 @@ const StyledButton = styled(
       shape,
       block,
       isLoading,
+      disabled,
       ...props
-    }) => <button {...props} />,
+    }) => <button {...props} disabled={disabled}/>,
   )`
     display: inline-flex;
     align-items: center;
@@ -106,14 +107,13 @@ const Button = (props) => (
 
 Button.defaultProps = {
     kind: 'filled',
-    size: 'medium'
+    size: 'medium',
 };
 
 Button.propTypes = {
     kind: PropTypes.oneOf(['filled', 'outlined']),
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     disabled: PropTypes.bool,
-
   };
 
 

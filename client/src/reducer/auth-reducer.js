@@ -1,10 +1,9 @@
 export const dispatchFunc = (authState, {type, payload}) => {
-    console.log(payload.userId);
     switch(type){
         case "LOGIN":
-            return {...authState, isUserLoggedIn: true, currentUserId: payload.userId}
+            return {...authState, isUserLoggedIn: true, currentUser: payload.user}
         case "LOGOUT":
-            return {...authState, isUserLoggedIn: false, currentUserId: null}
+            return {...authState, isUserLoggedIn: false, currentUser: null}
         default:
             return {...authState}
     }
@@ -12,5 +11,5 @@ export const dispatchFunc = (authState, {type, payload}) => {
 
 export const initialState = {
     isUserLoggedIn: false,
-    currentUserId: null
+    currentUser: null
 }
