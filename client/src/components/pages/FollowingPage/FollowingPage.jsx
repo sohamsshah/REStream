@@ -13,7 +13,8 @@ function FollowingPage() {
     const {authState} = useAuth();
     const {currentUserId} = authState;
     const { videoState} = useVideo();
-    const currUserVideoState = videoState.filter((item) => item.id === currentUserId)[0];
+    console.log(videoState);
+    // const currUserVideoState = videoState.filter((item) => item.id === currentUserId)[0];
     return (
         (currentUserId !== null) ?
             <div className="following">
@@ -22,9 +23,11 @@ function FollowingPage() {
             <Typography className="following__heading" fontSize="ml" fontWeight="semibold">
                 Channels You Follow
             </Typography>
-                {(currUserVideoState.following.filter(({isChannel}) => isChannel).length) ? 
+                {(videoState.following.filter(({isChannel}) => isChannel).length) ? 
                 <CardGroup>
-                    {currUserVideoState.following.map(({name, thumbnail, redirect, creator_id, isChannel}) => {
+                    {
+                        
+                    videoState.following.map(({name, thumbnail, redirect, creator_id, isChannel}) => {
                         if (isChannel){
                         return <CategoryCard name={name} thumbnail={thumbnail} redirect={redirect+`${creator_id}`} />
                         }
@@ -39,9 +42,9 @@ function FollowingPage() {
             <Typography className="following__heading" fontSize="ml" fontWeight="semibold">
                 Creators You Follow
             </Typography>
-            {(currUserVideoState.following.filter(({isChannel}) => !isChannel).length) ? 
+            {(videoState.following.filter(({isChannel}) => !isChannel).length) ? 
                 <CardGroup>
-                    {currUserVideoState.following.map(({name, thumbnail, redirect, creator_id, isChannel}) => {
+                    {videoState.following.map(({name, thumbnail, redirect, creator_id, isChannel}) => {
                         if (!isChannel){
                         return <CategoryCard name={name} thumbnail={thumbnail} redirect={redirect+`${creator_id}`} />
                         }

@@ -4,7 +4,7 @@ import {Link} from "react-router-dom"
 import Image from "./../../atoms/Image/Image"
 import Typography from "./../../atoms/Typography/Typography"
 
-function Video({name, thumbnail, kind="video", category, creator_details, redirect}) {
+function Video({name, thumbnail, kind="video", category, redirect}) {
     return (
         <div className={kind === 'video'? 'video': 'small-video'}>
             <Link to={redirect}>

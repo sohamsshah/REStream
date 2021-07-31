@@ -1,7 +1,6 @@
-import React from 'react'
-import {useParams} from "react-router-dom"
-import {data} from "./../../../data/data"
-import {searchCreator} from "./../../../utils/category/category"
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import { useParams } from "react-router-dom"
 import Video from "./../../molecules/Video/Video"
 import VideoGroup from "./../VideoGroup/VideoGroup"
 import CategoryDetails from "./../CategoryDetails/CategoryDetails"
@@ -9,19 +8,42 @@ import Typography from "./../../atoms/Typography/Typography"
 import "./Category.css"
 
 function Category() {
+    const [categoryVideos, setCategoryVideos] = useState("Loading...")
+    const [categoryDetails, setCategoryDetails] = useState("Loading...")
     const { category } = useParams();
-    const categoryVideos = data.videos.filter((item) => item.category_name === category);
-    const {name, thumbnail, description, tags} = data.categories.filter((item) => item.category_name === category)[0];
+    const {name, thumbnail, description, tags} = categoryDetails[0];
     console.log(categoryVideos);
+
+    useEffect(() => {
+        (async function () {
+            try {
+                const response = await axios.get(`https://apirestream.sohamsshah.repl.co/categories/${category}`);
+                if (response.status === 200) {
+                    
+                    setCategoryVideos(response.data.videos)
+                    setCategoryDetails(response.data.category)
+                }
+            }
+            catch (error) {
+                console.log(error.message)
+            }
+        })()
+    }, [category])
     return (
-        <div>        
-        <CategoryDetails name={name} thumbnail={thumbnail} description={description} tags={tags}/>
         <div>
-        <Typography className="category__subheading" fontSize="xl" fontWeight="semibold">Videos</Typography>
-        <VideoGroup>
-            {categoryVideos.map(({name, creator_id, thumbnail, id, category}) => <Video category = {category} name={name} thumbnail={thumbnail} redirect={`/watch/${id}`} creator_details={searchCreator(data, creator_id)} />)}
-        </VideoGroup>
-        </div>
+            {
+                (categoryDetails !== "Loading...") ? <CategoryDetails name={name} thumbnail={thumbnail} description={description} tags={tags} /> :categoryDetails
+            }
+            
+            <div>
+                <Typography className="category__subheading" fontSize="xl" fontWeight="semibold">Videos</Typography>
+
+
+                <VideoGroup>
+                    {categoryVideos !== "Loading..." ? categoryVideos.map(({ name, creator_id, thumbnail, _id, category_name }) => <Video category={category_name} name={name} thumbnail={thumbnail} redirect={`/watch/${_id}`} />) : categoryVideos
+                    }
+                </VideoGroup>
+            </div>
         </div>
 
     )

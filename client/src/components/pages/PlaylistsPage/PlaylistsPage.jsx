@@ -4,15 +4,11 @@ import {useAuth} from "./../../../context/auth-context"
 import ContentHeading from '../../molecules/ContentHeading/ContentHeading'
 import VideoGroup from "./../../organisms/VideoGroup/VideoGroup"
 import Video from "./../../molecules/Video/Video"
-import {data} from "./../../../data/data"
-import {fetchVideoDetails} from './../../../utils/video/video'
 
 function PlaylistsPage() {
     const {authState} = useAuth();
-    const {currentUserId, isUserLoggedIn} = authState;
+    const {isUserLoggedIn} = authState;
     const { videoState} = useVideo();
-    const currUserVideoState = videoState.filter((item) => item.id === currentUserId)[0];
-    console.log(currUserVideoState);
     return (
         (isUserLoggedIn) ? 
         <div>
@@ -21,14 +17,12 @@ function PlaylistsPage() {
             <ContentHeading fontSize="2rem">Your Playlists</ContentHeading>
             <div className="playlists-page__list">
                 {
-                    currUserVideoState.playlists.map((playlist) => {
+                    videoState.playlists.map((playlist) => {
                         return <div>
                         <h1> {playlist.name}</h1>
                         <VideoGroup>
-                            {playlist.videos.map((id) => {
-                                console.log(data, id);
-                                const {name, thumbnail} = fetchVideoDetails(data, id);
-                                return <Video kind="small-video" name={name} thumbnail={thumbnail} redirect={`/watch/${id}`} />
+                            {playlist.videos.map((video) => {
+                                return <Video kind="small-video" name={video.creator_id.name} thumbnail={video.creator_id.thumbnail} redirect={`/watch/${video._id}`} />
                             })}
                         </VideoGroup>
                         </div>

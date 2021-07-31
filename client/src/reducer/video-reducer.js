@@ -1,54 +1,52 @@
 export const dispatchFunc = (videoState, {type, payload}) => {
-    const {currentUserId, video} = payload;
-    const currVideoStateIndex = videoState.findIndex(item => item.id === currentUserId);
     switch(type){
+        case "ADD_USER_DATA":
+            return payload;
         case "ADD_TO_LIKES":
-            videoState[currVideoStateIndex] = {...videoState[currVideoStateIndex], likedVideos:[...videoState[currVideoStateIndex].likedVideos, video]}
-            return [...videoState]
+            return {...videoState, likedVideos: [...videoState.likedVideos, payload.video]}
+
         case "REMOVE_FROM_LIKES":
-            videoState[currVideoStateIndex] = {...videoState[currVideoStateIndex], likedVideos: [...videoState[currVideoStateIndex].likedVideos.filter((item) => item.id !== video.id)]}
-            return [...videoState]
+            return {...videoState, likedVideos: [...videoState.likedVideos.filter((item) => item.id !== payload.video._id)]}
+            
         case "REMOVE_FROM_PLAYLIST":
-            videoState[currVideoStateIndex] = {...videoState[currVideoStateIndex], playlists: videoState[currVideoStateIndex].playlists.map(currPlaylist => {
+            return {...videoState, playlists: videoState.playlists.map(currPlaylist => {
                 if (currPlaylist.name === payload.name) {
-                    return {...currPlaylist, videos: currPlaylist.videos.filter(item => item !== payload.id)}
+                    return {...currPlaylist, videos: currPlaylist.videos.filter(item => item._id !== payload.video._id)}
                 } else {
                     return currPlaylist
                 } 
             })}
-            return [...videoState];
+        
         case "ADD_TO_PLAYLIST":
-            
-            videoState[currVideoStateIndex] = {...videoState[currVideoStateIndex], playlists: videoState[currVideoStateIndex].playlists.map(currPlaylist => {
-                console.log("start", videoState);
-                if(currPlaylist.name === payload.name){
-                    console.log({...currPlaylist, videos:[...currPlaylist.videos, payload.id]});
-                    return {...currPlaylist, videos:[...currPlaylist.videos, payload.id]}
-                }else{
-                    return {...currPlaylist}
-                }})
-            }
-            return [...videoState]
 
+        return {...videoState, playlists: videoState.playlists.map(currPlaylist => {
+            
+            if(currPlaylist._id === payload.playlistId){
+    
+                return {...currPlaylist, videos:[...currPlaylist.videos, payload.video]}
+            }else{
+                return {...currPlaylist}
+            }})
+        }
+            
         case "ADD_NEW_PLAYLIST":
-            videoState[currVideoStateIndex] = {...videoState[currVideoStateIndex],  playlists: [...videoState[currVideoStateIndex].playlists, {name: payload.name, videos:[]}]}
-            return [...videoState]
+            return {...videoState, playlists: [...videoState.playlists, payload.playlist]}
+
         case "FOLLOW":
-            videoState[currVideoStateIndex] = {...videoState[currVideoStateIndex], following:[...videoState[currVideoStateIndex].following, payload.creator]}
-            return [...videoState]
+            return {...videoState, following: [...videoState.following, payload.creator]}
+            
         case "UNFOLLOW":
-            videoState[currVideoStateIndex] = {...videoState[currVideoStateIndex], following: [...videoState[currVideoStateIndex].following.filter((item) => item.creator_id !== payload.creator.creator_id)]}
-            return [...videoState]
+            return {...videoState, following: [...videoState.following.filter((item) => item._id !== payload.creator._id)]}
+            
 
         default:
-            return [...videoState]
+            return {...videoState}
 
 
     }
 }
-export const initialState = [
-    {
-        id: "123",
+export const initialState = {
+        _id: "60a13ddc7e25f80154b8ec80",
         likedVideos: [],
         following: [],
         playlists: [
@@ -57,5 +55,4 @@ export const initialState = [
                 videos: []
             }
         ]
-    },
-]
+}

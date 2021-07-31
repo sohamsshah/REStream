@@ -1,4 +1,5 @@
 export const dispatchFunc = (authState, {type, payload}) => {
+    console.log(payload.userId);
     switch(type){
         case "LOGIN":
             return {...authState, isUserLoggedIn: true, currentUserId: payload.userId}

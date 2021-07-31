@@ -3,34 +3,35 @@ import {useVideo} from "./../../../context/video-context"
 import "./PlaylistModal.css"
 import {searchPlaylist} from "./../../../utils/context-utils/context-utils"
 import {useAuth} from "./../../../context/auth-context"
+import {addNewPlaylist as addNewPlaylistToDB, addToPlaylist} from "./../../../utils/api-calls/playlist"
 
 
 function PlaylistModal({video, showModal, setShowModal}) {
     const {authState} = useAuth();
     const {currentUserId} = authState;
     const { videoState, dispatch } = useVideo();
-    const currUserVideoState = videoState.filter((item) => item.id === currentUserId)[0];
     const [modalInput, setModalInput] = useState("")
     
-    function checkBoxHandler(e, item) {
-        
+    async function checkBoxHandler(e, item) {
+        console.log(item);
         if(currentUserId !== null){
-            if (searchPlaylist(item.videos, video.id) === true) {
-                dispatch({ type: "REMOVE_FROM_PLAYLIST", payload: { name: item.name, id: video.id, currentUserId:currentUserId } })
+            if (searchPlaylist(item.videos, video._id) === true) {
+                dispatch({ type: "REMOVE_FROM_PLAYLIST", payload: { name: item.name, video: video, currentUserId:currentUserId } })
+            
             } else {
-                console.log("two times");
                 
-                dispatch({ type: "ADD_TO_PLAYLIST", payload: { name: item.name, id: video.id, currentUserId:currentUserId } })
-            }
+                addToPlaylist(currentUserId, item._id, video);
+                }
         }
 
     }
 
-    function addNewPlaylist(e){
+    async function addNewPlaylist(e){
         e.preventDefault();
         if (modalInput.trim().length === 0)
             return
-        dispatch({ type: "ADD_NEW_PLAYLIST", payload: {name:modalInput, currentUserId:currentUserId } })
+        addNewPlaylistToDB(currentUserId, modalInput, dispatch);        
+        
         setModalInput("");
     }
     return (
@@ -47,7 +48,8 @@ function PlaylistModal({video, showModal, setShowModal}) {
                 </div>
                 <div className="modal__options">
                     {
-                        (currentUserId)?(currUserVideoState.playlists.map((item, index) => {
+                        (currentUserId)?(videoState.playlists.map((item, index) => {
+                            
 
                             return (
                                 <div
@@ -58,7 +60,7 @@ function PlaylistModal({video, showModal, setShowModal}) {
                                             onChange={(e) => checkBoxHandler(e, item)} type="checkbox"
                                             name="checkbox"
                                             id={`checkBox${index}`}
-                                            checked = {(currentUserId)?(searchPlaylist(item.videos, video.id)):false}
+                                            checked = {(currentUserId)?(searchPlaylist(item.videos, video._id)):false}
                                         />
                                         {item.name}
                                     </label>
