@@ -1,5 +1,6 @@
 .video-stream{
-    width:70%;
+    width:100%;
+    min-height: 100vh;
 }
 .video-stream__info{
     display: flex;
@@ -94,3 +95,9 @@
 .video-description{
     margin: 1rem 0;
 }
+
+@media only screen and (min-width: 1080px) {
+    .video-stream{
+      width: 100%;
+    }
+  }

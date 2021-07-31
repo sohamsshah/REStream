@@ -1,3 +1,6 @@
+.following{
+    min-height:100vh;
+}
 .following__channels{
     padding-bottom: 2rem;
 }
@@ -8,4 +11,8 @@
 
 .following__heading{
     padding-bottom:1rem;
+}
+
+.link-text a{
+    color: var(--primary-color);
 }

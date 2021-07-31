@@ -1,10 +1,18 @@
 .main-container{
-    
+ display:flex;   
     
 }
 
 .main__content{
-    margin-left:15rem;
-    background-color: var(--background-color);
+    margin-left:0;
+    background-color: var(--background-color-dark);
     padding:2rem;
+    min-height: 100vh;
+    flex:1;
 }
+
+@media only screen and (min-width: 1080px) {
+    .main__content{
+      margin-left:15rem;
+    }
+  }

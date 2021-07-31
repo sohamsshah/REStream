@@ -3,9 +3,10 @@ import axios from 'axios'
 import CardGroup from "../CardGroup/CardGroup"
 import CategoryCard from "../../molecules/CategoryCard/CategoryCard"
 import ContentHeading from "../../molecules/ContentHeading/ContentHeading"
+import Spinner from "./../../atoms/Spinner/Spinner"
 
 function Creator() {
-    const [creators, setCreators] = useState("Loading...")
+    const [creators, setCreators] = useState(null)
     useEffect(() => {
         (async function () {
             try {
@@ -25,12 +26,12 @@ function Creator() {
         <div>
             <ContentHeading>Instructors</ContentHeading>
             <CardGroup>
-                {creators !== "Loading..." ? creators.map(({name, thumbnail, redirect, _id, isChannel}) => {
+                {creators !== null ? creators.map(({name, thumbnail, redirect, _id, isChannel}) => {
                     if (!isChannel){
                     return <CategoryCard name={name} thumbnail={thumbnail} redirect={redirect+`${_id}`} />
                     }
                     return ""
-                }) : creators}
+                }) : <Spinner />}
             </CardGroup>
         </div>
         

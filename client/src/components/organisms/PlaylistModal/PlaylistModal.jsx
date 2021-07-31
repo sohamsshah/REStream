@@ -3,33 +3,33 @@ import {useVideo} from "./../../../context/video-context"
 import "./PlaylistModal.css"
 import {searchPlaylist} from "./../../../utils/context-utils/context-utils"
 import {useAuth} from "./../../../context/auth-context"
-
+import {addNewPlaylist as addNewPlaylistToDB, addToPlaylist, removeFromPlaylist} from "./../../../utils/api-calls/playlist"
+import Button from "./../../atoms/Button/Button"
 
 function PlaylistModal({video, showModal, setShowModal}) {
     const {authState} = useAuth();
-    const {currentUserId} = authState;
+    const {currentUser} = authState;
     const { videoState, dispatch } = useVideo();
     const [modalInput, setModalInput] = useState("")
     
-    function checkBoxHandler(e, item) {
-        
-        if(currentUserId !== null){
+    async function checkBoxHandler(e, item) {
+        if(currentUser !== null){
             if (searchPlaylist(item.videos, video._id) === true) {
-                dispatch({ type: "REMOVE_FROM_PLAYLIST", payload: { name: item.name, video: video, currentUserId:currentUserId } })
-            
+                await removeFromPlaylist(currentUser._id, item._id, video, dispatch);
+                
             } else {
-             
-                dispatch({ type: "ADD_TO_PLAYLIST", payload: { name: item.name, video: video} })
+                await addToPlaylist(currentUser._id, item._id, video, dispatch);
             }
         }
 
     }
 
-    function addNewPlaylist(e){
+    async function addNewPlaylist(e){
         e.preventDefault();
         if (modalInput.trim().length === 0)
             return
-        dispatch({ type: "ADD_NEW_PLAYLIST", payload: {name:modalInput } })
+        addNewPlaylistToDB(currentUser._id, modalInput, dispatch);        
+        
         setModalInput("");
     }
     return (
@@ -42,23 +42,23 @@ function PlaylistModal({video, showModal, setShowModal}) {
                 className="modal"
             >
                 <div className="modal__heading">
-                    ADD TO PLAYLIST
+                    Add to Playlist
                 </div>
                 <div className="modal__options">
                     {
-                        (currentUserId)?(videoState.playlists.map((item, index) => {
+                        (currentUser)?(videoState.playlists.map((item, index) => {
                             
 
                             return (
                                 <div
                                     key = {index}
-                                    className="checkbox">
+                                    className="modal__checkbox">
                                     <label htmlFor={`checkBox${index}`}>
                                         <input
                                             onChange={(e) => checkBoxHandler(e, item)} type="checkbox"
                                             name="checkbox"
                                             id={`checkBox${index}`}
-                                            checked = {(currentUserId)?(searchPlaylist(item.videos, video._id)):false}
+                                            checked = {(currentUser._id)?(searchPlaylist(item.videos, video._id)):false}
                                         />
                                         {item.name}
                                     </label>
@@ -68,14 +68,15 @@ function PlaylistModal({video, showModal, setShowModal}) {
                         ):""
                     }
                 </div>
-                <form onSubmit={(e) => addNewPlaylist(e)} className="modal-add">
+                <form onSubmit={(e) => addNewPlaylist(e)} className="modal__add">
                     <input
                         value={modalInput}
                         onChange={(e) => setModalInput(e.target.value)}
                         type="text"
                         placeholder="New PlayList.."
                     />
-                    <button type="submit" >ADD</button>
+                    <Button type="submit">ADD</Button>
+                    
                 </form>
                 
 

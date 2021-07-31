@@ -1,6 +1,5 @@
-export function searchLikes(state, video) {
-    console.log(state, video);
-    if (state.likedVideos.filter((item) => item._id === video._id).length === 0) {
+export function searchLikes(state, videoID) {
+    if (state.likedVideos.filter((item) => item.videoId._id === videoID).length === 0) {
         return false
     } else {
         return true
@@ -8,8 +7,7 @@ export function searchLikes(state, video) {
 }
 
 export function searchPlaylist(playlists, videoID){
-    console.log(playlists, videoID);
-    if (playlists.filter((item) => item._id === videoID).length === 0){
+    if (playlists.filter((item) => item.videoId._id === videoID).length === 0){
         return false
     } else{
         return true
@@ -17,7 +15,8 @@ export function searchPlaylist(playlists, videoID){
 }
 
 export function searchFollowings(state, creatorID) {
-    if (state.following.filter((item) => item._id === creatorID).length === 0) {
+    console.log(state, creatorID);
+    if (state.following.filter((item) => item.creatorId._id === creatorID).length === 0) {
         return false
     } else {
         return true

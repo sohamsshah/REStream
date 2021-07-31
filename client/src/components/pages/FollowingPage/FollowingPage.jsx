@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import "./FollowingPage.css"
 import {useVideo} from "./../../../context/video-context"
 import {useAuth} from "./../../../context/auth-context"
@@ -11,53 +11,55 @@ import {Link} from "react-router-dom"
 
 function FollowingPage() {
     const {authState} = useAuth();
-    const {currentUserId} = authState;
+    const {isUserLoggedIn} = authState;
     const { videoState} = useVideo();
-    console.log(videoState);
-    // const currUserVideoState = videoState.filter((item) => item.id === currentUserId)[0];
-    return (
-        (currentUserId !== null) ?
+    useEffect(() => { window.scrollTo(0, 0); }, []);
+        return (
+        (isUserLoggedIn) ?
             <div className="following">
             <ContentHeading fontSize="2rem">Following</ContentHeading>
             <div className="following__channels">
             <Typography className="following__heading" fontSize="ml" fontWeight="semibold">
                 Channels You Follow
             </Typography>
-                {(videoState.following.filter(({isChannel}) => isChannel).length) ? 
+                {(videoState.following.filter(({creatorId}) => creatorId.isChannel).length) ? 
                 <CardGroup>
                     {
                         
-                    videoState.following.map(({name, thumbnail, redirect, creator_id, isChannel}) => {
-                        if (isChannel){
-                        return <CategoryCard name={name} thumbnail={thumbnail} redirect={redirect+`${creator_id}`} />
+                    videoState.following.map(({creatorId}) => {
+                        if (creatorId.isChannel){
+                        return <CategoryCard name={creatorId.name} thumbnail={creatorId.thumbnail} redirect={creatorId.redirect+`${creatorId._id}`} />
                         }
                         return ""
                     })}
                 </CardGroup> : <div>
-                    Seems you haven't followed any Channels yet. Follow some <Link to="/channels">Channels</Link> to get started!
+                    Seems you haven't followed any Channels yet. Follow some <span className="link-text"><Link to="/channels">Channels</Link></span> to get started!
                 </div>
                 }
             </div>
             <div className="following__creators">
             <Typography className="following__heading" fontSize="ml" fontWeight="semibold">
-                Creators You Follow
+                Instructors You Follow
             </Typography>
-            {(videoState.following.filter(({isChannel}) => !isChannel).length) ? 
+            {(videoState.following.filter(({creatorId}) => !creatorId.isChannel).length) ? 
                 <CardGroup>
-                    {videoState.following.map(({name, thumbnail, redirect, creator_id, isChannel}) => {
-                        if (!isChannel){
-                        return <CategoryCard name={name} thumbnail={thumbnail} redirect={redirect+`${creator_id}`} />
+                    {
+                        
+                    videoState.following.map(({creatorId}) => {
+                        if (!creatorId.isChannel){
+                        return <CategoryCard name={creatorId.name} thumbnail={creatorId.thumbnail} redirect={creatorId.redirect+`${creatorId._id}`} />
                         }
                         return ""
                     })}
-                </CardGroup> : 
-                <div>
-                    Seems you haven't followed any Instructors yet. Follow some <Link to="/instructors">Instructors</Link> to get started!
+                </CardGroup> : <div>
+                    Seems you haven't followed any Instructors yet. Follow some <span className="link-text"><Link to="/instructors">Instructors</Link></span> to get started!
                 </div>
                 }
             </div>
             </div>: 
-            <div></div>
+            <div className="following">
+                Please Login
+            </div>
         
     )
 }

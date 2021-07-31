@@ -1,73 +1,49 @@
 const express = require('express');
 const router = express.Router();
 const { extend } = require("lodash");
-const { UserDetail } = require("./../models/userDetails.model");
+const {getUserById} = require("../controllers/params")
+const {getPlaylistsOfUser, createPlaylistOfUser, updatePlaylistOfUser, deletePlaylistOfUser, addVideoToPlaylistOfUser, deleteVideoFromPlaylistOfUser} = require("../controllers/user/playlist");
+const {getDetailsOfAllUsers, getDetailsOfUser} = require("../controllers/user/auth");
+const {getLikedVideosOfUser, addVideoToLikedVideosOfUser, removeVideoFromLikedVideosOfUser} = require("../controllers/user/like");
+const {getHistoryOfUser, clearHistoryOfUser, addVideoToHistoryOfUser, removeVideoFromHistoryOfUser} = require("../controllers/user/history")
+const {addCreatorToFollowingOfUser, removeCreatorFromFollowingOfUser} = require("../controllers/user/following")
 
-router.get("/", async (req, res) => {
-  try {
-    const userDetails = await UserDetail.find({});
-    res.status(200).json({ userDetails, success: true, message: "Successful" })
-  } catch (error) {
-    res.status(404).json({ success: false, message: "Error while retrieving details", errorMessage: error.message })
-  }
-})
+router.get("/", getDetailsOfAllUsers)
 
-router.param("userId", async (req, res, next, userId) => {
-  try {
-    const user = await UserDetail.findById(userId);
-    if (!user) {
-      return res.status(400).json({ success: false, message: "unable to find user" });
-    }
-    req.user = user;
-    next();
-  } catch (error) {
-    res.status(400).json({ success: false, message: "unable to send user" })
-  }
-})
+router.param("userId", getUserById)
 
 router.route("/:userId")
-.get(async (req, res) => {
-    const { user } = req;
-    return res.json({ user, success: true })});
+.get(getDetailsOfUser);
 
 router.route("/:userId/likedVideos")
-.get(async (req, res) => {
-    const { user } = req;
-    const updatedObj = await user.populate('likedVideos.videoId').execPopulate();
-    return res.json({ likedVideos: updatedObj.likedVideos, success: true })})
-.post(async (req, res) => {
-    const { user } = req;
-    const video = req.body;
-    user.likedVideos.push({ videoId: video.videoId });
-    await user.save();
-    const newVideo = user.likedVideos.find(item => item.videoId == video.videoId)
-    return res.status(201).json({ addedVideo: newVideo, success: true, message: "Successful" });
-  }) 
-.delete(async (req, res) => {
-    const { user } = req;
-    const { videoId } = req.body;
-    const video = user.likedVideos.find(item => item.videoId == videoId)
-    if (video) {
-      user.likedVideos.pull({ _id: video._id });
-      await user.save();
-      return res.status(200).json({ deletedVideo: video, success: true, message: "Successful" });
-    } else {
-      return res.status(404).json({ succes: false, message: "The video id you requested doesn't exists" });
-    }
-  })  
+.get(getLikedVideosOfUser)
+.post(addVideoToLikedVideosOfUser) 
 
-router.route("/:userId/likedVideos")
-.get(async (req, res) => {
-    const { user } = req;
-    const updatedObj = await user.populate('likedVideos.videoId').execPopulate();
-    return res.json({ likedVideos: updatedObj.likedVideos, success: true })})
-.post(async (req, res) => {
-    const { user } = req;
-    const video = req.body;
-    user.likedVideos.push({ videoId: video.videoId });
-    await user.save();
-    const newVideo = user.likedVideos.find(item => item.videoId == video.videoId)
-    return res.status(201).json({ addedVideo: newVideo, success: true, message: "Successful" });
-  })   
+router.route("/:userId/likedVideos/:videoId")
+.delete(removeVideoFromLikedVideosOfUser) 
+
+router.route('/:userId/playlists')
+  .get(getPlaylistsOfUser)
+  .post(createPlaylistOfUser);
+
+router.route('/:userId/playlists/:playlistId')
+  .post(updatePlaylistOfUser)
+  .delete(deletePlaylistOfUser)
+
+router.route('/:userId/playlists/:playlistId/:videoId')
+  .post(addVideoToPlaylistOfUser)
+  .delete(deleteVideoFromPlaylistOfUser);
+
+router.route('/:userId/follow/:creatorId')
+.post(addCreatorToFollowingOfUser)
+.delete(removeCreatorFromFollowingOfUser);
+
+router.route('/:userId/history')
+.get(getHistoryOfUser)
+.delete(clearHistoryOfUser)
+
+router.route('/:userId/history/:videoId')
+.post(addVideoToHistoryOfUser)
+.delete(removeVideoFromHistoryOfUser)
 
 module.exports = router;

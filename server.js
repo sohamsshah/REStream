@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const PORT = process.env.PORT || 8080;
 const { errorHandler } = require('./server/middlewares/error-handler.middleware');
 const { routeNotFound } = require('./server/middlewares/route-not-found.middleware');
@@ -15,6 +16,7 @@ const userCredential = require('./server/routes/userCredentials.route');
 const userDetails = require('./server/routes/userDetails.route');
 
 // Data parsing
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

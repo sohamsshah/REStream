@@ -10,16 +10,23 @@ import {AiFillLike, AiOutlineLike} from "react-icons/ai"
 import {RiPlayListAddFill} from "react-icons/ri"
 import PlaylistModal from "./../PlaylistModal/PlaylistModal"
 import Button from "./../../atoms/Button/Button"
+import {likeVideo, dislikeVideo} from "./../../../utils/api-calls/like-video";
+import {followCreator, unfollowCreator} from "./../../../utils/api-calls/following";
+import {addToHistory} from "./../../../utils/api-calls/history";
+import Spinner from "./../../atoms/Spinner/Spinner"
+import {useHistory} from "react-router-dom"
 import "./VideoStream.css"
 
 function VideoStream() {
     const {id} = useParams()
-    const [video, setVideo] = useState("Loading...");
-    const [creatorDetails, setCreatorDetails] = useState("Loading...")
+    const history = useHistory()
+    const [video, setVideo] = useState(null);
+    const [creatorDetails, setCreatorDetails] = useState(null)
     const {authState} = useAuth();
-    const {currentUserId} = authState;
+    const {currentUser} = authState;
     const { videoState, dispatch } = useVideo();
     const [showModal, setShowModal] = useState(false);
+    console.log(videoState);
 
     useEffect(() => {
         (async function () {
@@ -36,44 +43,53 @@ function VideoStream() {
         })()
     }, [id])
 
-    function handleLike(){
-        if (currentUserId !== null && video !== "Loading..."){
-        if(searchLikes(videoState,video) === false){
-            dispatch({type : "ADD_TO_LIKES", payload:{video:video, currentUserId:currentUserId}})
-        } else {
-            dispatch({type : "REMOVE_FROM_LIKES", payload:{video:video, currentUserId:currentUserId}})
+    useEffect(() => {
+        if(currentUser !== null){
+            if(video !== null && video._id !== undefined){
+                addToHistory(currentUser._id, video, dispatch);
+            }
         }
+        
+    }, [video]);
+
+    async function handleLike (){
+        if (currentUser !== null && video !== null){
+        if(searchLikes(videoState,video._id) === false){
+            likeVideo(currentUser._id,video, dispatch);
+              } else {
+            dislikeVideo(currentUser._id,video, dispatch);
+            }
     }
     else{
-        alert("Please Login")
+        history.push("/auth/login")
     }
     }
 
-    function handleFollow(){
-        if (currentUserId !== null && video !== "Loading..."){
+    async function handleFollow(){
+        if (currentUser !== null && video !== null){
             
             if(searchFollowings(videoState,creatorDetails._id) === false){
-                
-                dispatch({type : "FOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
+                followCreator(currentUser._id, creatorDetails, dispatch);
             } else {
-                dispatch({type : "UNFOLLOW", payload:{creator:creatorDetails, currentUserId:currentUserId}})
+                unfollowCreator(currentUser._id, creatorDetails, dispatch);
             }
         } 
         else{
-            alert("Please Login")
+            history.push("/auth/login")
         } 
     }
     function handlePlaylist(){
-        if(currentUserId !== null){
+        if(currentUser !== null){
             setShowModal(true)
         }else{
-            alert("Please Login")
+            history.push("/auth/login")
         }
     }
     return (
         
-        
-        <div className="video-stream">
+        (video !== null && creatorDetails !== null) ? 
+        (<div className="video-stream">
+            
             <div className="video-embed">
                 <VideoEmbed width="100%" height="560" id={id} />
             </div>
@@ -84,9 +100,9 @@ function VideoStream() {
                 <div className="info__buttons">
                     <button
                         onClick = {handleLike}
-                        className={(currentUserId !== null)?(searchLikes(videoState, video) ? "video-stream__like like__clicked" : "video-stream__like"):"video-stream__like"}
+                        className={(currentUser !== null)?(searchLikes(videoState, video._id) ? "video-stream__like like__clicked" : "video-stream__like"):"video-stream__like"}
                     >
-                        {(currentUserId !== null)?(searchLikes(videoState,video) ? <AiFillLike /> : <AiOutlineLike />):<AiOutlineLike />}
+                        {(currentUser !== null)?(searchLikes(videoState,video._id) ? <AiFillLike /> : <AiOutlineLike />):<AiOutlineLike />}
                     </button>
                     <button onClick={handlePlaylist}className="video-stream__playlist">
                     <RiPlayListAddFill />
@@ -107,7 +123,7 @@ function VideoStream() {
                 </div>
                 <div> 
                 <Button onClick={handleFollow}>
-                {(currentUserId !== null)?(searchFollowings(videoState,creatorDetails._id) === false ? "Follow": "Following"):"Follow"}
+                {(currentUser !== null)?(searchFollowings(videoState,creatorDetails._id) === false ? "Follow": "Following"):"Follow"}
                 </Button>
                 </div>
                 
@@ -118,7 +134,7 @@ function VideoStream() {
                 </div>
                 
             </div>  
-        </div>
+        </div>) : <div className="video-stream"><Spinner /></div>
     )
 }
 

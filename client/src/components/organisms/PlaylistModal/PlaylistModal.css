@@ -1,6 +1,5 @@
 .modal-wrapper{
     background-color: var(--background-color-dark);
-    
         position: fixed;
         top : 0;
         left: 0;
@@ -14,10 +13,11 @@
 }
 
 .modal{
+    padding: 1.2rem;
     color: var(--light-color);
     background-color: var(--dark-color);
-    width: 290px;
-    min-height: 280px;
+    width: 250px;
+    min-height: 180px;
     box-shadow: 0 6px 12px -2px rgb(50 50 93 / 25%), 0 3px 7px -3px rgb(0 0 0 / 30%);
     border-radius: 5px;
 }
@@ -26,6 +26,23 @@
     display:none;
 }
 
-.modal-add{
-    
+.modal__heading{
+    font-size: 1.2rem;
+    padding:0.5rem 0;
+    font-weight: 700;
 }
+
+.modal__options{
+    font-size: 1.1rem;
+    padding: 0.5rem 0;
+}
+
+input[type="checkbox"]{ 
+    height:1.1rem;
+    width:1.1rem; 
+}
+
+.modal__add input{
+    padding: 0.2rem;
+}
+
